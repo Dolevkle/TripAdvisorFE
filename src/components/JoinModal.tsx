@@ -1,16 +1,21 @@
+import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  Button,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
+    Button,
+    Input,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    useDisclosure
 } from "@nextui-org/react";
-import { useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
+import avatarLogo from "../assets/avatar.jpeg";
 import { EyeFilledIcon } from "./icons/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "./icons/EyeSlashFilledIcon";
+
+
 
 export default function JoinModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -22,6 +27,22 @@ export default function JoinModal() {
 
   const toggleVisibility = () => setIsVisible(!isVisible);
   const isInvalid = password !== secondPassword && isSubmitted;
+
+  const [imgSrc, setImgSrc] = useState<File>();
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  //   const emailInputRef = useRef<HTMLInputElement>(null)
+  //   const passwordInputRef = useRef<HTMLInputElement>(null)
+  const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+    if (e.target.files && e.target.files.length > 0) {
+      setImgSrc(e.target.files[0]);
+    }
+  };
+  const selectImg = () => {
+    console.log("Selecting image...");
+    fileInputRef.current?.click();
+  };
 
   return (
     <>
@@ -36,6 +57,26 @@ export default function JoinModal() {
                 Join us 🎉
               </ModalHeader>
               <ModalBody>
+                <div className="flex flex-col items-center justify-center position-relative">
+                  <img
+                    src={imgSrc ? URL.createObjectURL(imgSrc) : avatarLogo}
+                    className="h-24 w-24 rounded-full border border-foreground-300"
+                  />
+                  <button
+                    type="button"
+                    className="btn position-absolute bottom-0 end-0 pl-20"
+                    onClick={selectImg}
+                  >
+                    <FontAwesomeIcon icon={faImage} className="fa-xl text-default" />
+                  </button>
+                </div>
+
+                <input
+                  style={{ display: "none" }}
+                  ref={fileInputRef}
+                  type="file"
+                  onChange={imgSelected}
+                ></input>
                 <Input
                   type="email"
                   label="Email"

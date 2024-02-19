@@ -35,7 +35,7 @@ const IndexLazyRoute = IndexLazyImport.update({
 const HomeKakiLazyRoute = HomeKakiLazyImport.update({
   path: '/kaki',
   getParentRoute: () => HomeLazyRoute,
-} as any).lazy(() => import('./routes/home.kaki..lazy').then((d) => d.Route))
+} as any).lazy(() => import('./routes/home.kaki.lazy').then((d) => d.Route))
 
 // Populate the FileRoutesByPath interface
 

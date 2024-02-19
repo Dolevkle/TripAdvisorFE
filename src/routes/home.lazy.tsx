@@ -58,12 +58,12 @@ function Home() {
           </NavbarItem>
           <NavbarItem isActive>
             <Link href="#" aria-current="page" color="primary">
-              Customers
+              Views
             </Link>
           </NavbarItem>
           <NavbarItem>
             <Link color="foreground" href="#">
-              Integrations
+              Settings
             </Link>
           </NavbarItem>
         </NavbarContent>
@@ -74,7 +74,7 @@ function Home() {
                 isBordered
                 as="button"
                 className="transition-transform"
-                color="primary"
+                color="secondary"
                 name="kaki Hughes"
                 showFallback
                 size="sm"
@@ -90,7 +90,6 @@ function Home() {
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">zoey@example.com</p>
               </DropdownItem>
-              <DropdownItem key="settings">My Settings</DropdownItem>
               <DropdownItem key="logout" color="danger">
                 Log Out
               </DropdownItem>
