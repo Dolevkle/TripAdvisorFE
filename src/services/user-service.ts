@@ -10,7 +10,7 @@ export interface IUser {
     refreshToken?: string
 }
 
-export const registrUser = (user: IUser) => {
+export const registerUser = (user: IUser) => {
     return new Promise<IUser>((resolve, reject) => {
         console.log("Registering user...")
         console.log(user)

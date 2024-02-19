@@ -3,7 +3,7 @@ import avatar from '../assets/avatar.jpeg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import { uploadPhoto } from '../services/file-service'
-import { registrUser, googleSignin, IUser } from '../services/user-service'
+import { registerUser, googleSignin, IUser } from '../services/user-service'
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
 
 function Registration() {
@@ -24,7 +24,8 @@ function Registration() {
     }
 
     const register = async () => {
-        const url = await uploadPhoto(imgSrc!);
+        // const url = await uploadPhoto(imgSrc!);
+        const url = 'asdsadsa'
         console.log("upload returned:" + url);
         if (emailInputRef.current?.value && passwordInputRef.current?.value) {
             const user: IUser = {
@@ -32,7 +33,7 @@ function Registration() {
                 password: passwordInputRef.current?.value,
                 imgUrl: url
             }
-            const res = await registrUser(user)
+            const res = await registerUser(user)
             console.log(res)
         }
     }

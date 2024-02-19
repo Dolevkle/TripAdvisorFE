@@ -47,12 +47,14 @@
 import PostList from "./components/PostsList"
 import Registration from "./components/Registration"
 
+import Home from "./components/Home"
+
 function App() {
   return (
-    <div className="p-2">
-      <Registration />
-      <PostList />
-    </div>
+    // <div className="text-blue-900">
+    //   kaki
+      <Home/>
+    // </div>
   )
 }
 
