@@ -1,19 +1,25 @@
-import React, { useState } from "react";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
-  useDisclosure,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
 } from "@nextui-org/react";
+import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 
 export default function SignInModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSignIn = () => {
+    navigate({ to: '/home/kaki' })
+  }
 
   return (
     <>
@@ -47,7 +53,7 @@ export default function SignInModal() {
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary" onPress={onClose}>
+                <Button color="primary" onPress={handleSignIn}>
                   Sign In
                 </Button>
               </ModalFooter>

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
-  useDisclosure,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
 } from "@nextui-org/react";
+import { useState } from "react";
 import { EyeFilledIcon } from "./icons/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "./icons/EyeSlashFilledIcon";
 
@@ -70,7 +70,7 @@ export default function JoinModal() {
                   placeholder="Enter matching password"
                   isRequired
                   type="password"
-                //   className="max-w-xs"
+                  //   className="max-w-xs"
                   isInvalid={isInvalid}
                   errorMessage={isInvalid && "Please enter a matching password"}
                   value={secondPassword}
