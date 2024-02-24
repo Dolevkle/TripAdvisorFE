@@ -4,6 +4,7 @@ import { User } from "@nextui-org/react";
 import useCurrentUser from "../hooks/useCurrentUser";
 import axios from "axios";
 import { addMessage, getMessages } from "../services/messsage-service";
+import { cn } from "../../utils/cn";
 
 export default function ChatContainer({ currentChat, socket }) {
   console.log(currentChat);
@@ -67,11 +68,20 @@ export default function ChatContainer({ currentChat, socket }) {
           return (
             <div ref={scrollRef} key={id}>
               <div
-                className={`message ${
-                  message.fromSelf ? "sended" : "recieved"
-                }`}
+                className={cn(
+                  "flex",
+                  message.fromSelf ? "justify-end" : "justify-start"
+                )}
+                // className={`message ${
+                //   message.fromSelf ? "sended" : "recieved"
+                // }`}
               >
-                <div className="content ">
+                <div
+                  className={cn(
+                    " m-2 w-fit px-2 rounded-lg text-white",
+                    message.fromSelf ? "bg-primary" : "bg-foreground-500"
+                  )}
+                >
                   <p>{message.message}</p>
                 </div>
               </div>
