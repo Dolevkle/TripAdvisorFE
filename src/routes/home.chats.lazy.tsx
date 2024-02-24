@@ -108,6 +108,81 @@ export default function HomeChats() {
       imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/11.png",
       email: "sophia.taylor@example.com",
     },
+    {
+      id: 14,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/8.png",
+      email: "grace.allen@example.com",
+    },
+    {
+      id: 15,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/9.png",
+      email: "noah.carter@example.com",
+    },
+    {
+      id: 16,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/9.png",
+      email: "ava.perez@example.com",
+    },
+    {
+      id: 17,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/11.png",
+      email: "liam.johnson@example.com",
+    },
+    {
+      id: 18,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/11.png",
+      email: "sophia.taylor@example.com",
+    },
+    {
+      id: 14,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/8.png",
+      email: "grace.allen@example.com",
+    },
+    {
+      id: 15,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/9.png",
+      email: "noah.carter@example.com",
+    },
+    {
+      id: 16,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/9.png",
+      email: "ava.perez@example.com",
+    },
+    {
+      id: 17,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/11.png",
+      email: "liam.johnson@example.com",
+    },
+    {
+      id: 18,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/11.png",
+      email: "sophia.taylor@example.com",
+    },
+        {
+      id: 14,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/8.png",
+      email: "grace.allen@example.com",
+    },
+    {
+      id: 15,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/9.png",
+      email: "noah.carter@example.com",
+    },
+    {
+      id: 16,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/9.png",
+      email: "ava.perez@example.com",
+    },
+    {
+      id: 17,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/11.png",
+      email: "liam.johnson@example.com",
+    },
+    {
+      id: 18,
+      imgUrl: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/11.png",
+      email: "sophia.taylor@example.com",
+    },
    
   ]);
   const [currentChat, setCurrentChat] = useState();
@@ -144,7 +219,7 @@ export default function HomeChats() {
     setCurrentChat(chat);
   };
   return (
-    <div className="flex justify-center h-full">
+    <div className="flex justify-center h-[625px]">
       <Contacts contacts={contacts} changeChat={handleChatChange} />
       {/* {currentChat === undefined ? (
         <Welcome />

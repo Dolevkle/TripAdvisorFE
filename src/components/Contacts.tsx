@@ -35,7 +35,7 @@ export default function Contacts({ contacts, changeContact }) {
           // topContent={topContent}
           classNames={{
             base: "max-w-xs border-r-2 border-divider",
-            list: "max-h-5/6 overflow-auto",
+            list: "h-full overflow-auto",
           }}
           defaultSelectedKeys={["1"]}
           items={contacts}
