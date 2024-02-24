@@ -1,21 +1,22 @@
 import { faImage } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    Button,
-    Input,
-    Modal,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    useDisclosure
+  Button,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
 } from "@nextui-org/react";
 import { ChangeEvent, useRef, useState } from "react";
 import avatarLogo from "../assets/avatar.jpeg";
 import { EyeFilledIcon } from "./icons/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "./icons/EyeSlashFilledIcon";
-
-
+import { IUser, registerUser } from "../services/user-service";
+import { uploadPhoto } from "../services/file-service";
+import { useNavigate } from "@tanstack/react-router";
 
 export default function JoinModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -31,6 +32,7 @@ export default function JoinModal() {
   const [imgSrc, setImgSrc] = useState<File>();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
   //   const emailInputRef = useRef<HTMLInputElement>(null)
   //   const passwordInputRef = useRef<HTMLInputElement>(null)
   const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +44,22 @@ export default function JoinModal() {
   const selectImg = () => {
     console.log("Selecting image...");
     fileInputRef.current?.click();
+  };
+
+  const handleSubmit = async () => {
+    setIsSubmitted(true);
+    const imgUrl = await uploadPhoto(imgSrc!);
+    const user: IUser = {
+      email,
+      password,
+      imgUrl,
+    };
+    const registeredUser = await registerUser(user);
+    if(registeredUser) {
+        console.log(registeredUser);
+        localStorage.setItem('currentUser', JSON.stringify(registeredUser))
+        navigate({ to: '/home/kaki' });
+    }
   };
 
   return (
@@ -67,7 +85,10 @@ export default function JoinModal() {
                     className="btn position-absolute bottom-0 end-0 pl-20"
                     onClick={selectImg}
                   >
-                    <FontAwesomeIcon icon={faImage} className="fa-xl text-default" />
+                    <FontAwesomeIcon
+                      icon={faImage}
+                      className="fa-xl text-default"
+                    />
                   </button>
                 </div>
 
@@ -122,7 +143,7 @@ export default function JoinModal() {
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary" onPress={() => setIsSubmitted(true)}>
+                <Button color="primary" onPress={handleSubmit}>
                   Join in
                 </Button>
               </ModalFooter>

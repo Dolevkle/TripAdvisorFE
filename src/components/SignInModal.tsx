@@ -10,6 +10,7 @@ import {
 } from "@nextui-org/react";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { loginUser } from "../services/user-service";
 
 export default function SignInModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -17,12 +18,18 @@ export default function SignInModal() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSignIn = () => {
-    navigate({ to: '/home/kaki' })
-    localStorage.setItem(
-        'currentUser',
-        JSON.stringify({email,password})
-      );
+  const handleSignIn = async () => {
+    const user = {email,password};
+    const res = await loginUser(user);
+    console.log(res);
+    if(res) {
+        navigate({ to: '/home/kaki' })
+        localStorage.setItem(
+            'currentUser',
+            JSON.stringify(res)
+          );
+    }
+
   }
 
   return (

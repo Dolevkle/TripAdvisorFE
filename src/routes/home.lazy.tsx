@@ -17,6 +17,7 @@ import {
 } from "@tanstack/react-router";
 import { Key, useEffect, useState } from "react";
 import { AdvizorsLogo } from "../assets/AdvizorsLogo";
+import useCurrentUser from "../hooks/useCurrentUser";
 
 export const Route = createLazyFileRoute("/home")({
   component: Home,
@@ -26,7 +27,10 @@ function Home() {
   const navigate = useNavigate();
 
   const handleUserDropdownItem = (key: Key) => {
-    if (key === "logout") navigate({ to: "/" });
+    if (key === "logout") {
+      navigate({ to: "/" });
+      localStorage.removeItem("currentTab");
+    }
   };
 
   // const [tabIndex, setTabIndex] = useState(0);
@@ -36,7 +40,9 @@ function Home() {
     if (!currentTab) localStorage.setItem("currentTab", "1");
   }, []);
 
-  const currentTab = localStorage.getItem("currentTab");
+  const currentTab = localStorage.getItem("currentTab") ?? "1";
+  const currentUser = useCurrentUser();
+
 
   return (
     <>
@@ -64,10 +70,10 @@ function Home() {
           <p className="font-bold text-inherit">Advizors</p>
         </NavbarBrand>
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
-          <NavbarItem isActive={ currentTab === "0"}>
+          <NavbarItem isActive={currentTab === "0"}>
             <Link
               href="./chats"
-              onClick={() => localStorage.setItem("currentTab","0")}
+              onClick={() => localStorage.setItem("currentTab", "0")}
               color={currentTab === "0" ? "primary" : "foreground"}
             >
               Chats
@@ -76,7 +82,7 @@ function Home() {
           <NavbarItem isActive={currentTab === "1"}>
             <Link
               href="./kaki"
-              onClick={() => localStorage.setItem("currentTab","1")}
+              onClick={() => localStorage.setItem("currentTab", "1")}
               color={currentTab === "1" ? "primary" : "foreground"}
             >
               Views
@@ -85,7 +91,7 @@ function Home() {
           <NavbarItem isActive={currentTab === "2"}>
             <Link
               href="#"
-              onClick={() =>localStorage.setItem("currentTab","2")}
+              onClick={() => localStorage.setItem("currentTab", "2")}
               color={currentTab === "2" ? "primary" : "foreground"}
             >
               Settings
@@ -100,10 +106,10 @@ function Home() {
                 as="button"
                 className="transition-transform"
                 color="secondary"
-                name="kaki Hughes"
+                name={currentUser.email}
                 showFallback
                 size="sm"
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                src={currentUser.imgUrl}
               />
             </DropdownTrigger>
             <DropdownMenu
@@ -113,7 +119,7 @@ function Home() {
             >
               <DropdownItem key="profile" className="h-14 gap-2">
                 <p className="font-semibold">Signed in as</p>
-                <p className="font-semibold">zoey@example.com</p>
+                <p className="font-semibold">{currentUser.email}</p>
               </DropdownItem>
               <DropdownItem key="logout" color="danger">
                 Log Out

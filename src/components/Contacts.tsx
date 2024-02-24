@@ -7,28 +7,16 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 
-export default function Contacts({ contacts, changeContact }) {
-  const [values, setValues] = React.useState(new Set(["1"]));
+export default function Contacts({ contacts, changeChat }) {
+//   const [value, setValue] = React.useState(new Set(["1"]));
 
-  const arrayValues = Array.from(values);
+//   const selectedValue = React.useMemo(
+//     () => Array.from(value).join(", "),
+//     [value]
+//   );
 
-  //   const topContent = React.useMemo(() => {
-  //     if (!arrayValues.length) {
-  //       return null;
-  //     }
+//   console.log(selectedValue);
 
-  //     return (
-  //       <ScrollShadow
-  //         // hideScrollBar
-  //         // className="w-full flex py-0.5 px-2 gap-1"
-  //         orientation="horizontal"
-  //       >
-  //         {arrayValues.map((value) => (
-  //           <Chip key={value}>{contacts.find((contact) => `${contact.id}` === `${value}`).name}</Chip>
-  //         ))}
-  //       </ScrollShadow>
-  //     );
-  //   }, [arrayValues.length]);
 
   return (
         <Listbox
@@ -41,13 +29,14 @@ export default function Contacts({ contacts, changeContact }) {
           items={contacts}
           label="Assigned to"
           selectionMode="single"
-          onSelectionChange={setValues}
+          onSelectionChange={changeChat}
           variant="faded"
           color='primary'
           hideSelectedIcon
         >
           {(item) => (
-            <ListboxItem key={item.id} textValue={item.email}>
+            // key is the value selected
+            <ListboxItem key={item.email} textValue={item.email}>
               <div className="flex gap-2 items-center">
                 <Avatar
                   alt={item.email}
