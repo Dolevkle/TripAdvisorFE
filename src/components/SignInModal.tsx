@@ -14,12 +14,12 @@ import { loginUser } from "../services/user-service";
 
 export default function SignInModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSignIn = async () => {
-    const user = {email,password};
+    const user = {username,password};
     const res = await loginUser(user);
     console.log(res);
     if(res) {
@@ -44,12 +44,12 @@ export default function SignInModal() {
               <ModalHeader className="flex flex-col gap-1">Sign In</ModalHeader>
               <ModalBody>
                 <Input
-                  type="email"
-                  label="Email"
-                  placeholder="Enter your email"
+                  type="text"
+                  label="Username"
+                  placeholder="Enter your username"
                   isRequired
-                  value={email}
-                  onValueChange={setEmail}
+                  value={username}
+                  onValueChange={setUsername}
                 />
                 <Input
                   label="Password"

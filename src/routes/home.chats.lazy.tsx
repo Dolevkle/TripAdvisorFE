@@ -51,7 +51,7 @@ export default function HomeChats() {
 
   return (
     <div className="flex justify-center h-[625px]">
-      <Contacts contacts={contacts} changeChat={handleChatChange} />
+      {contacts && <Contacts contacts={contacts} changeChat={handleChatChange} />}
       {/* {currentChat === undefined ? (
         <Welcome />
       ) : (

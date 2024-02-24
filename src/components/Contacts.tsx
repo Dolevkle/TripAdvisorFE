@@ -45,7 +45,7 @@ export default function Contacts({ contacts, changeChat }) {
                   src={item.imgUrl}
                 />
                 <div className="flex flex-col">
-                  <span className="text-small">{item.email}</span>
+                  <span className="text-small">{item.username}</span>
                   <span className="text-tiny text-default-400">
                     {item.email}
                   </span>

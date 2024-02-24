@@ -22,6 +22,7 @@ export default function JoinModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [secondPassword, setSecondPassword] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -51,12 +52,12 @@ export default function JoinModal() {
     const imgUrl = await uploadPhoto(imgSrc!);
     const user: IUser = {
       email,
+      username,
       password,
       imgUrl,
     };
     const registeredUser = await registerUser(user);
-    if(registeredUser) {
-        console.log(registeredUser);
+    if(registeredUser && !isInvalid) {
         localStorage.setItem('currentUser', JSON.stringify(registeredUser))
         navigate({ to: '/home/kaki' });
     }
@@ -105,6 +106,14 @@ export default function JoinModal() {
                   isRequired
                   value={email}
                   onValueChange={setEmail}
+                />
+                  <Input
+                  type="text"
+                  label="Username"
+                  placeholder="Enter your username"
+                  isRequired
+                  value={username}
+                  onValueChange={setUsername}
                 />
                 <Input
                   label="Password"

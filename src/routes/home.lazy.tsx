@@ -30,6 +30,7 @@ function Home() {
     if (key === "logout") {
       navigate({ to: "/" });
       localStorage.removeItem("currentTab");
+      localStorage.removeItem('currentUser')
     }
   };
 
@@ -119,7 +120,7 @@ function Home() {
             >
               <DropdownItem key="profile" className="h-14 gap-2">
                 <p className="font-semibold">Signed in as</p>
-                <p className="font-semibold">{currentUser.email}</p>
+                <p className="font-semibold">{currentUser.username}</p>
               </DropdownItem>
               <DropdownItem key="logout" color="danger">
                 Log Out

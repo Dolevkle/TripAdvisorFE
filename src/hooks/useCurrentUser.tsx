@@ -8,6 +8,7 @@ export default function useCurrentUser() {
       JSON.stringify({
         accessToken: "",
         email: "default",
+        username: 'default',
         imgUrl: "",
         refreshToken: "",
         _id: "",
