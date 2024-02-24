@@ -30,7 +30,7 @@ export default function ChatInput({ handleSendMsg }) {
           onValueChange={setMsg}
 
         />
-        <FontAwesomeIcon icon={faPaperPlane} className=' cursor-pointer' onClick={sendChat}/>
+        <FontAwesomeIcon icon={faPaperPlane} className=' cursor-pointer hover:text-foreground-100' onClick={sendChat}/>
       {/* </form> */}
     </div>
   );

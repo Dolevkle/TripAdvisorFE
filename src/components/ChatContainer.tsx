@@ -70,7 +70,8 @@ export default function ChatContainer({ currentChat, socket }) {
               <div
                 className={cn(
                   "flex",
-                  message.fromSelf ? "justify-end" : "justify-start"
+                  message.fromSelf ? "justify-end" : "justify-start",
+                  'items-center',
                 )}
                 // className={`message ${
                 //   message.fromSelf ? "sended" : "recieved"
@@ -79,7 +80,7 @@ export default function ChatContainer({ currentChat, socket }) {
                 <div
                   className={cn(
                     " m-2 w-fit px-2 rounded-lg text-white",
-                    message.fromSelf ? "bg-primary" : "bg-foreground-500"
+                    message.fromSelf ? "bg-primary rounded-br-none" : "bg-foreground-500 rounded-bl-none",
                   )}
                 >
                   <p>{message.message}</p>
