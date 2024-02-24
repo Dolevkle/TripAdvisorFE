@@ -19,6 +19,10 @@ export default function SignInModal() {
 
   const handleSignIn = () => {
     navigate({ to: '/home/kaki' })
+    localStorage.setItem(
+        'currentUser',
+        JSON.stringify({email,password})
+      );
   }
 
   return (

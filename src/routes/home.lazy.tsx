@@ -10,8 +10,12 @@ import {
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/react";
-import { createLazyFileRoute, useNavigate , Outlet} from "@tanstack/react-router";
-import { Key } from "react";
+import {
+  createLazyFileRoute,
+  useNavigate,
+  Outlet,
+} from "@tanstack/react-router";
+import { Key, useEffect, useState } from "react";
 import { AdvizorsLogo } from "../assets/AdvizorsLogo";
 
 export const Route = createLazyFileRoute("/home")({
@@ -24,6 +28,16 @@ function Home() {
   const handleUserDropdownItem = (key: Key) => {
     if (key === "logout") navigate({ to: "/" });
   };
+
+  // const [tabIndex, setTabIndex] = useState(0);
+
+  useEffect(() => {
+    const currentTab = localStorage.getItem("currentTab");
+    if (!currentTab) localStorage.setItem("currentTab", "0");
+  }, []);
+
+  const currentTab = localStorage.getItem("currentTab");
+
   return (
     <>
       {" "}
@@ -51,18 +65,30 @@ function Home() {
           <p className="font-bold text-inherit">Advizors</p>
         </NavbarBrand>
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
-          <NavbarItem>
-            <Link color="foreground" href="#">
-              Features
+          <NavbarItem isActive={ currentTab === "0"}>
+            <Link
+              href="./chats"
+              onClick={() => localStorage.setItem("currentTab","0")}
+              color={currentTab === "0" ? "primary" : "foreground"}
+            >
+              Chats
             </Link>
           </NavbarItem>
-          <NavbarItem isActive>
-            <Link href="#" aria-current="page" color="primary">
+          <NavbarItem isActive={currentTab === "1"}>
+            <Link
+              href="./kaki"
+              onClick={() => localStorage.setItem("currentTab","1")}
+              color={currentTab === "1" ? "primary" : "foreground"}
+            >
               Views
             </Link>
           </NavbarItem>
-          <NavbarItem>
-            <Link color="foreground" href="#">
+          <NavbarItem isActive={currentTab === "2"}>
+            <Link
+              href="#"
+              onClick={() =>localStorage.setItem("currentTab","2")}
+              color={currentTab === "2" ? "primary" : "foreground"}
+            >
               Settings
             </Link>
           </NavbarItem>
