@@ -33,7 +33,7 @@ function Home() {
 
   useEffect(() => {
     const currentTab = localStorage.getItem("currentTab");
-    if (!currentTab) localStorage.setItem("currentTab", "0");
+    if (!currentTab) localStorage.setItem("currentTab", "1");
   }, []);
 
   const currentTab = localStorage.getItem("currentTab");
