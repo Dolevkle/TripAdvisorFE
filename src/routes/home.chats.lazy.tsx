@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import Contacts from "../components/Contacts";
 import { getAllUsers } from "../services/user-service";
+import NoChat from "../components/NoChat";
+import ChatContainer from "../components/ChatContainer";
 // import ChatContainer from "../components/ChatContainer";
 // import Contacts from "../components/Contacts";
 // import Welcome from "../components/Welcome";
@@ -13,7 +15,6 @@ export const Route = createLazyFileRoute("/home/chats")({
   component: HomeChats,
 });
 
-
 export default function HomeChats() {
   const navigate = useNavigate();
   const socket = useRef();
@@ -21,22 +22,22 @@ export default function HomeChats() {
   const [currentChat, setCurrentChat] = useState();
   const [currentUser, setCurrentUser] = useState();
   useEffect(() => {
-    const currentUser = localStorage.getItem('currentUser');
-    if(!currentUser) {
-        navigate('/')
+    const currentUser = localStorage.getItem("currentUser");
+    if (!currentUser) {
+      navigate("/");
     } else {
-        setCurrentUser(JSON.parse(currentUser));
+      setCurrentUser(JSON.parse(currentUser));
     }
   }, []);
 
   const handleChatChange = (currentChat) => setCurrentChat(currentChat);
 
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     socket.current = io(host);
-  //     socket.current.emit("add-user", currentUser._id);
-  //   }
-  // }, [currentUser]);
+  useEffect(() => {
+    if (currentUser) {
+      socket.current = io("http://localhost:3000");
+      socket.current.emit("add-user", currentUser._id);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -47,18 +48,26 @@ export default function HomeChats() {
     };
     fetchContacts();
   }, [currentUser]);
-
-
+  console.log(contacts);
+  console.log(Array.from(currentChat ?? {}));
   return (
     <div className="flex justify-center h-[625px]">
-      {contacts && <Contacts contacts={contacts} changeChat={handleChatChange} />}
-      {/* {currentChat === undefined ? (
-        <Welcome />
-      ) : (
-        <ChatContainer currentChat={currentChat} socket={socket} />
-      )} */}
-      
-      <main className="flex-auto">// Content</main>
+      {contacts && (
+        <Contacts contacts={contacts} changeChat={handleChatChange} />
+      )}
+      <main className="flex-auto">
+        {" "}
+        {!currentChat ? (
+          <NoChat />
+        ) : (
+          <ChatContainer
+            currentChat={contacts?.find(
+              (contact) => contact._id === Array.from(currentChat).join('')
+            )}
+            socket={socket}
+          />
+        )}
+      </main>
     </div>
   );
 }

@@ -36,7 +36,7 @@ export default function Contacts({ contacts, changeChat }) {
         >
           {(item) => (
             // key is the value selected
-            <ListboxItem key={item.email} textValue={item.email}>
+            <ListboxItem key={item._id} textValue={item.email}>
               <div className="flex gap-2 items-center">
                 <Avatar
                   alt={item.email}
