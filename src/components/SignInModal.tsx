@@ -23,7 +23,7 @@ export default function SignInModal() {
     const res = await loginUser(user);
     console.log(res);
     if(res) {
-        navigate({ to: '/home/kaki' })
+        navigate({ to: '/home/me' })
         localStorage.setItem(
             'currentUser',
             JSON.stringify(res)
