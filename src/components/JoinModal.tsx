@@ -59,7 +59,7 @@ export default function JoinModal() {
     const registeredUser = await registerUser(user);
     if(registeredUser && !isInvalid) {
         localStorage.setItem('currentUser', JSON.stringify(registeredUser))
-        navigate({ to: '/home/kaki' });
+        navigate({ to: '/home/me' });
     }
   };
 
