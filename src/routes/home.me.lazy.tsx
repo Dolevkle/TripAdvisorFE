@@ -2,6 +2,7 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import Posts, { Post } from "../components/Posts";
 import useCurrentUser from "../hooks/useCurrentUser";
 import UploadPostCard from "../components/Posts/UploadPostCard";
+import NoPost from "../components/Posts/NoPost";
 
 export const Route = createLazyFileRoute("/home/me")({
   component: HomeMe,
@@ -35,7 +36,8 @@ function HomeMe() {
   return (
     <div className="m-10 flex flex-col items-center space-y-8">
       <UploadPostCard/>
-      <Posts posts={posts} />
+      {/* <Posts posts={posts} /> */}
+      <NoPost/>
     </div>
   );
 }
