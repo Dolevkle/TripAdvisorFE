@@ -1,13 +1,12 @@
 import { useEffect, useId, useRef, useState } from "react";
 import ChatInput from "./ChatInput";
 import { User } from "@nextui-org/react";
-import useCurrentUser from "../hooks/useCurrentUser";
 import axios from "axios";
-import { addMessage, getMessages } from "../services/messsage-service";
-import { cn } from "../../utils/cn";
+import { addMessage, getMessages } from "../../services/messsage-service";
+import { cn } from "../../../utils/cn";
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 export default function ChatContainer({ currentChat, socket }) {
-  console.log(currentChat);
   const [messages, setMessages] = useState([]);
   const scrollRef = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
@@ -54,7 +53,7 @@ export default function ChatContainer({ currentChat, socket }) {
     });
     setMessages([...messages, { fromSelf: true, message: msg }]);
   };
-  console.log(messages);
+
   return (
     <>
       <User
@@ -63,7 +62,7 @@ export default function ChatContainer({ currentChat, socket }) {
         avatarProps={{ src: currentChat.imgUrl }}
         className="w-full p-4 border-b-2 border-divider justify-start rounded-none bg-content2"
       />
-      <div className="chat-messages">
+      <div>
         {messages?.map((message) => {
           return (
             <div ref={scrollRef} key={id}>

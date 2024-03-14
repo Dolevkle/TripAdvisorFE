@@ -8,15 +8,16 @@ import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
+  NavbarItem
 } from "@nextui-org/react";
 import {
+  Outlet,
   createLazyFileRoute,
   useNavigate,
-  Outlet,
 } from "@tanstack/react-router";
-import { Key, useEffect, useState } from "react";
+import { Key, useEffect } from "react";
 import { AdvizorsLogo } from "../assets/AdvizorsLogo";
+import SearchBar from "../components/SearchBar";
 import useCurrentUser from "../hooks/useCurrentUser";
 
 export const Route = createLazyFileRoute("/home")({
@@ -30,7 +31,7 @@ function Home() {
     if (key === "logout") {
       navigate({ to: "/" });
       localStorage.removeItem("currentTab");
-      localStorage.removeItem('currentUser')
+      localStorage.removeItem("currentUser");
     }
   };
 
@@ -43,7 +44,6 @@ function Home() {
 
   const currentTab = localStorage.getItem("currentTab") ?? "1";
   const currentUser = useCurrentUser();
-
 
   return (
     <>
@@ -82,7 +82,7 @@ function Home() {
           </NavbarItem>
           <NavbarItem isActive={currentTab === "1"}>
             <Link
-              href="./kaki"
+              href="./me"
               onClick={() => localStorage.setItem("currentTab", "1")}
               color={currentTab === "1" ? "primary" : "foreground"}
             >
@@ -100,6 +100,7 @@ function Home() {
           </NavbarItem>
         </NavbarContent>
         <NavbarContent justify="end">
+          <SearchBar/>
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <Avatar

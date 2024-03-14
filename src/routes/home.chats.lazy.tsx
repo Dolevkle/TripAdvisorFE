@@ -2,10 +2,10 @@ import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
-import Contacts from "../components/Contacts";
+import Contacts from "../components/chats/Contacts";
 import { getAllUsers } from "../services/user-service";
-import NoChat from "../components/NoChat";
-import ChatContainer from "../components/ChatContainer";
+import NoChat from "../components/chats/NoChat";
+import ChatContainer from "../components/chats/ChatContainer";
 // import ChatContainer from "../components/ChatContainer";
 // import Contacts from "../components/Contacts";
 // import Welcome from "../components/Welcome";
@@ -48,8 +48,6 @@ export default function HomeChats() {
     };
     fetchContacts();
   }, [currentUser]);
-  console.log(contacts);
-  console.log(Array.from(currentChat ?? {}));
   return (
     <div className="flex justify-center h-[625px]">
       {contacts && (
