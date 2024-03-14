@@ -1,3 +1,5 @@
+import { faComments, faGears, faHome } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Avatar,
   Dropdown,
@@ -8,7 +10,8 @@ import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem
+  NavbarItem,
+  Tooltip,
 } from "@nextui-org/react";
 import {
   Outlet,
@@ -77,7 +80,17 @@ function Home() {
               onClick={() => localStorage.setItem("currentTab", "0")}
               color={currentTab === "0" ? "primary" : "foreground"}
             >
-              Chats
+              <Tooltip
+                content="Chats"
+                key="bottom"
+                placement="bottom"
+                color="foreground"
+              >
+                <FontAwesomeIcon
+                  icon={faComments}
+                  className="w-[48px] h-[20px]"
+                />
+              </Tooltip>
             </Link>
           </NavbarItem>
           <NavbarItem isActive={currentTab === "1"}>
@@ -86,7 +99,14 @@ function Home() {
               onClick={() => localStorage.setItem("currentTab", "1")}
               color={currentTab === "1" ? "primary" : "foreground"}
             >
-              Views
+              <Tooltip
+                content="Views"
+                key="bottom"
+                placement="bottom"
+                color="foreground"
+              >
+                <FontAwesomeIcon icon={faHome} className="w-[48px] h-[20px]" />
+              </Tooltip>
             </Link>
           </NavbarItem>
           <NavbarItem isActive={currentTab === "2"}>
@@ -95,12 +115,19 @@ function Home() {
               onClick={() => localStorage.setItem("currentTab", "2")}
               color={currentTab === "2" ? "primary" : "foreground"}
             >
-              Settings
+              <Tooltip
+                content="Settings"
+                key="bottom"
+                placement="bottom"
+                color="foreground"
+              >
+                <FontAwesomeIcon icon={faGears} className="w-[48px] h-[20px]" />
+              </Tooltip>
             </Link>
           </NavbarItem>
         </NavbarContent>
         <NavbarContent justify="end">
-          <SearchBar/>
+          <SearchBar />
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <Avatar
