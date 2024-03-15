@@ -68,7 +68,7 @@ export default function JoinModal() {
       <Button color="primary" onPress={onOpen}>
         Join
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissible={false}>
         <ModalContent>
           {(onClose) => (
             <>

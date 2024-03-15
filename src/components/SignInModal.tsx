@@ -37,7 +37,7 @@ export default function SignInModal() {
       <Button color="primary" variant="bordered" onPress={onOpen}>
         Sign In
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissible={false}>
         <ModalContent>
           {(onClose) => (
             <>
