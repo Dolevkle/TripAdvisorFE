@@ -1,7 +1,12 @@
-import { faImage, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import {
+  faImage,
+  faMinus,
+  faUserGroup,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Avatar,
+  Badge,
   Button,
   Chip,
   Divider,
@@ -23,7 +28,8 @@ interface Props {
 export default function CreatePost({ isOpen, onOpenChange }: Props) {
   const currentUser = useCurrentUser();
 
-  const [imgSrc, setImgSrc] = useState<File>();
+  const [imgSrc, setImgSrc] = useState<File | null>(null);
+  const [content, setContent] = useState<string>('');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   //   const emailInputRef = useRef<HTMLInputElement>(null)
@@ -54,6 +60,7 @@ export default function CreatePost({ isOpen, onOpenChange }: Props) {
     // }
   };
 
+
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissible={false}>
@@ -73,15 +80,29 @@ export default function CreatePost({ isOpen, onOpenChange }: Props) {
                   />
                   <div className="flex flex-col items-center space-y-0.5">
                     <span className="self-start">{currentUser.username}</span>
-                    <Chip size='sm' startContent={<FontAwesomeIcon icon={faUserGroup}/>} className='text-white h-fit py-0.5 rounded-md w-full'>public</Chip>
+                    <Chip
+                      size="sm"
+                      startContent={<FontAwesomeIcon icon={faUserGroup} />}
+                      className="text-white h-fit py-0.5 rounded-md w-full"
+                    >
+                      public
+                    </Chip>
                   </div>
                 </div>
                 <div className="flex flex-col items-center justify-center position-relative">
                   {imgSrc && (
-                    <img
-                      src={URL.createObjectURL(imgSrc)}
-                      className="h-24 w-24  border border-foreground-300"
-                    />
+                    <>
+                      <Badge
+                        content={<FontAwesomeIcon icon={faMinus} />}
+                        className="cursor-pointer py-1 px-1.5"
+                        onClick={() => setImgSrc(null)}
+                      >
+                        <img
+                          src={URL.createObjectURL(imgSrc)}
+                          className="h-52 w-52 rounded"
+                        />
+                      </Badge>
+                    </>
                   )}
                 </div>
 
@@ -94,8 +115,8 @@ export default function CreatePost({ isOpen, onOpenChange }: Props) {
                 <Textarea
                   placeholder={`What are you Thinking on, ${currentUser.username}?`}
                   isRequired
-                  //   value={email}
-                  //   onValueChange={setEmail}
+                  value={content}
+                  onValueChange={setContent}
                 />
 
                 <div

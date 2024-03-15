@@ -20,7 +20,7 @@ interface Props {
   posts: Post[];
 }
 export default function Posts({ posts }: Props) {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedPost, setSelectedPost] = useState(posts[0]);
 
   const handlePostPress = (post: Post) => {
