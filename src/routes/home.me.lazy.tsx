@@ -11,27 +11,27 @@ export const Route = createLazyFileRoute("/home/me")({
 function HomeMe() {
   const user = useCurrentUser();
   const posts = [
-    // {
-    //   title: "Daily Mix",
-    //   subtitle: "Frontend Radio",
-    //   header: "12 Tracks",
-    //   imgUrl: user.imgUrl,
-    //   content: "hello world",
-    // },
-    // {
-    //   title: "Daily Mix",
-    //   subtitle: "Frontend Radio",
-    //   header: "12 Tracks",
-    //   imgUrl: user.imgUrl,
-    //   content: "hello world",
-    // },
-    // {
-    //   title: "Daily Mix",
-    //   subtitle: "Frontend Radio",
-    //   header: "12 Tracks",
-    //   imgUrl: user.imgUrl,
-    //   content: "hello world",
-    // },
+    {
+      title: "Daily Mix",
+      subtitle: "Frontend Radio",
+      header: "12 Tracks",
+      imgUrl: user.imgUrl,
+      content: "hello world",
+    },
+    {
+      title: "Daily BolBol",
+      subtitle: "Roni",
+      header: "13 reasons why",
+      imgUrl: null,
+      content: "hello world",
+    },
+    {
+      title: "Daily Mix",
+      subtitle: "Frontend Radio",
+      header: "12 Tracks",
+      imgUrl: user.imgUrl,
+      content: "hello world",
+    },
   ] as Post[];
   return (
     <div className="m-10 flex flex-col items-center space-y-8">

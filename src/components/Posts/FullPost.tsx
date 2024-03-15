@@ -29,6 +29,7 @@ export default function FullPost({
 }: Props) {
   const currentUser = useCurrentUser();
   const { title, header, imgUrl, subtitle, content } = post;
+  console.log(post)
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} size='2xl'>
