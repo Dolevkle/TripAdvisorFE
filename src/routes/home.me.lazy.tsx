@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import Posts, { Post } from "../components/Posts";
+import Posts, { Post } from "../components/Posts/Posts";
 import useCurrentUser from "../hooks/useCurrentUser";
 import UploadPostCard from "../components/Posts/UploadPostCard";
 import NoPost from "../components/Posts/NoPost";
@@ -36,8 +36,8 @@ function HomeMe() {
   return (
     <div className="m-10 flex flex-col items-center space-y-8">
       <UploadPostCard/>
-      {/* <Posts posts={posts} /> */}
-      <NoPost/>
+      <Posts posts={posts} />
+      {/* <NoPost/> */}
     </div>
   );
 }
