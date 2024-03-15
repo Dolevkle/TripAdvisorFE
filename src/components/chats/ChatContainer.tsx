@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import ChatInput from "./ChatInput";
-import { User } from "@nextui-org/react";
+import { Avatar, User } from "@nextui-org/react";
 import axios from "axios";
 import { addMessage, getMessages } from "../../services/messsage-service";
 import { cn } from "../../../utils/cn";
@@ -68,18 +68,23 @@ export default function ChatContainer({ currentChat, socket }) {
             <div ref={scrollRef} key={id}>
               <div
                 className={cn(
-                  "flex",
-                  message.fromSelf ? "justify-end" : "justify-start",
-                  'items-center',
+                  "flex justify-start items-center",
+                  message.fromSelf && "flex-row-reverse"
                 )}
-                // className={`message ${
-                //   message.fromSelf ? "sended" : "recieved"
-                // }`}
               >
+                <Avatar
+                  alt="user avatar"
+                  className="w-7 h-7 m-1"
+                  src={
+                    message.fromSelf ? currentUser.imgUrl : currentChat.imgUrl
+                  }
+                />
                 <div
                   className={cn(
                     " m-2 w-fit px-2 rounded-lg text-white",
-                    message.fromSelf ? "bg-primary rounded-br-none" : "bg-foreground-500 rounded-bl-none",
+                    message.fromSelf
+                      ? "bg-primary rounded-br-none"
+                      : "bg-foreground-500 rounded-bl-none"
                   )}
                 >
                   <p>{message.message}</p>
