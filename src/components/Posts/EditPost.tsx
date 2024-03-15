@@ -52,7 +52,7 @@ export default function EditPost({ isOpen, onOpenChange, post }: Props) {
       setContent(post.content);
     }
   }, [isOpen, post]);
-  
+
   const handleEdit = async () => {
     // setIsSubmitted(true);
     // const imgUrl = await uploadPhoto(imgSrc!);
@@ -134,7 +134,7 @@ export default function EditPost({ isOpen, onOpenChange, post }: Props) {
                   onClick={selectImg}
                   className="border-[2px] text-sm text-foreground-600 rounded-xl w-full h-12 flex justify-between p-2 items-center cursor-pointer"
                 >
-                  <span>Add to your Post</span>
+                  <span>Edit your Post</span>
                   <FontAwesomeIcon
                     icon={faImage}
                     className="fa-xl text-default cursor-pointer"
