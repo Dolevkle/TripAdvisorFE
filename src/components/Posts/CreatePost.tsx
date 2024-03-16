@@ -17,8 +17,10 @@ import {
   ModalHeader,
   Textarea,
 } from "@nextui-org/react";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import useCurrentUser from "../../hooks/useCurrentUser";
+import { uploadPhoto } from "../../services/file-service";
+import { createPost } from "../../services/post-service";
 
 interface Props {
   isOpen: boolean;
@@ -29,7 +31,7 @@ export default function CreatePost({ isOpen, onOpenChange }: Props) {
   const currentUser = useCurrentUser();
 
   const [imgSrc, setImgSrc] = useState<File | null>(null);
-  const [content, setContent] = useState<string>('');
+  const [content, setContent] = useState<string>("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   //   const emailInputRef = useRef<HTMLInputElement>(null)
@@ -44,9 +46,17 @@ export default function CreatePost({ isOpen, onOpenChange }: Props) {
     fileInputRef.current?.click();
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (onClose: () => void) => {
     // setIsSubmitted(true);
-    // const imgUrl = await uploadPhoto(imgSrc!);
+    const imgUrl = await uploadPhoto(imgSrc!);
+    const post = {
+      content,
+      imgUrl,
+    };
+    const createdPost = await createPost(post);
+    if (createdPost) {
+      onClose();
+    }
     // const user: IUser = {
     //   email,
     //   username,
@@ -60,10 +70,16 @@ export default function CreatePost({ isOpen, onOpenChange }: Props) {
     // }
   };
 
+  useEffect(() => {
+    if (!isOpen) {
+      setContent('');
+      setImgSrc(null);
+    }
+  }, [isOpen]);
 
   return (
     <>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissible={false}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissible={false} size='2xl'>
         <ModalContent>
           {(onClose) => (
             <>
@@ -135,7 +151,7 @@ export default function CreatePost({ isOpen, onOpenChange }: Props) {
                 <Button
                   color="primary"
                   variant="solid"
-                  onPress={handleSubmit}
+                  onPress={() => handleSubmit(onClose)}
                   fullWidth
                 >
                   Create

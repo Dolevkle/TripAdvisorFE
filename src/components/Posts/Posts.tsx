@@ -1,36 +1,30 @@
-import { useMemo, useState } from "react";
+import { faEllipsis, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  Avatar,
   Button,
   Card,
   CardBody,
   CardHeader,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
+  Chip,
   Image,
   Popover,
   PopoverContent,
   PopoverTrigger,
   useDisclosure,
 } from "@nextui-org/react";
-import FullPost from "./FullPost";
+import { useMemo, useState } from "react";
 import EditPost from "./EditPost";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
-
-export type Post = {
-  title: string;
-  subtitle: string;
-  imgUrl: string;
-  header: string;
-  content: string;
-};
+import FullPost from "./FullPost";
+import { Post } from "../../services/post-service";
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 interface Props {
   posts: Post[];
+  refetch?: () => void;
 }
-export default function Posts({ posts }: Props) {
+export default function Posts({ posts, refetch }: Props) {
+  const currentUser = useCurrentUser();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const {
     isOpen: isEditOpen,
@@ -40,6 +34,8 @@ export default function Posts({ posts }: Props) {
   const [selectedPost, setSelectedPost] = useState(posts[0]);
 
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
+
+  const [isPopOverOpen, setIsPopOverOpen] = useState(false);
 
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(", "),
@@ -51,6 +47,11 @@ export default function Posts({ posts }: Props) {
     onOpen();
   };
 
+  const handleEditOpen = (isPopOverOpen: boolean) => {
+    setIsPopOverOpen(isPopOverOpen);
+    onEditOpen();
+  };
+
   return (
     <>
       {posts.map((post) => (
@@ -60,28 +61,50 @@ export default function Posts({ posts }: Props) {
           onPress={() => handlePostPress(post)}
         >
           <CardHeader className="pb-0 pt-2 px-4 justify-between">
-            <div className="flex flex-col items-start">
-              <p className="text-tiny uppercase font-bold">{post.title}</p>
-              <small className="text-default-500">{post.header}</small>
-              <h4 className="font-bold text-large">{post.subtitle}</h4>
+            <div className="flex space-x-4">
+              <Avatar
+                alt="user avatar"
+                className="w-10 h-10 self-center"
+                src={currentUser.imgUrl}
+              />
+              <div className="flex flex-col items-center space-y-0.5">
+                <span className="self-start">{currentUser.username}</span>
+                <Chip
+                  size="sm"
+                  startContent={<FontAwesomeIcon icon={faUserGroup} />}
+                  className="text-white h-fit py-0.5 rounded-md w-full"
+                >
+                  public
+                </Chip>
+              </div>
             </div>
-            <Popover placement="bottom">
+            <Popover
+              placement="bottom"
+              isOpen={isPopOverOpen}
+              onOpenChange={(open) => setIsPopOverOpen(open)}
+            >
               <PopoverTrigger>
                 <FontAwesomeIcon icon={faEllipsis} className="self-start" />
               </PopoverTrigger>
               <PopoverContent className="p-0">
-               <Button onClick={onEditOpen} variant="light" fullWidth>Edit Post</Button>
+                <Button
+                  onClick={() => handleEditOpen(false)}
+                  variant="light"
+                  fullWidth
+                >
+                  Edit Post
+                </Button>
               </PopoverContent>
             </Popover>
           </CardHeader>
-          <CardBody className="overflow-visible py-2">
+          <CardBody className=" flex overflow-visible py-2 items-center">
             <Image
               alt="Card background"
-              className="object-cover rounded-xl"
+              className="object-cover rounded-xl my-4"
               src={post.imgUrl}
-              width={270}
-            />
-            <p>{post.content}</p>
+              width={500}
+              height={200}/>
+            <p className="self-start">{post.content}</p>
           </CardBody>
         </Card>
       ))}
@@ -94,6 +117,7 @@ export default function Posts({ posts }: Props) {
         isOpen={isEditOpen}
         onOpenChange={onEditOpenChange}
         post={selectedPost}
+        refetch={refetch}
       />
     </>
   );
