@@ -18,6 +18,7 @@ import { Route as rootRoute } from './routes/__root'
 
 const HomeLazyImport = createFileRoute('/home')()
 const IndexLazyImport = createFileRoute('/')()
+const HomePlacesLazyImport = createFileRoute('/home/places')()
 const HomeMeLazyImport = createFileRoute('/home/me')()
 const HomeChatsLazyImport = createFileRoute('/home/chats')()
 
@@ -32,6 +33,11 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const HomePlacesLazyRoute = HomePlacesLazyImport.update({
+  path: '/places',
+  getParentRoute: () => HomeLazyRoute,
+} as any).lazy(() => import('./routes/home.places.lazy').then((d) => d.Route))
 
 const HomeMeLazyRoute = HomeMeLazyImport.update({
   path: '/me',
@@ -63,6 +69,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeMeLazyImport
       parentRoute: typeof HomeLazyImport
     }
+    '/home/places': {
+      preLoaderRoute: typeof HomePlacesLazyImport
+      parentRoute: typeof HomeLazyImport
+    }
   }
 }
 
@@ -70,7 +80,11 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
-  HomeLazyRoute.addChildren([HomeChatsLazyRoute, HomeMeLazyRoute]),
+  HomeLazyRoute.addChildren([
+    HomeChatsLazyRoute,
+    HomeMeLazyRoute,
+    HomePlacesLazyRoute,
+  ]),
 ])
 
 /* prettier-ignore-end */

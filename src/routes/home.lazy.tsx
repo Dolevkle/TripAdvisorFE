@@ -18,10 +18,11 @@ import {
   createLazyFileRoute,
   useNavigate,
 } from "@tanstack/react-router";
-import { Key, useEffect } from "react";
+import { Key, useEffect, useState } from "react";
 import { AdvizorsLogo } from "../assets/AdvizorsLogo";
 import SearchBar from "../components/SearchBar";
 import useCurrentUser from "../hooks/useCurrentUser";
+import EditProfileModal from "../components/EditProfileModal.tsx";
 
 export const Route = createLazyFileRoute("/home")({
   component: Home,
@@ -29,12 +30,15 @@ export const Route = createLazyFileRoute("/home")({
 
 function Home() {
   const navigate = useNavigate();
-
+  const [openEdit, setOpenEdit] = useState(false);
   const handleUserDropdownItem = (key: Key) => {
     if (key === "logout") {
       navigate({ to: "/" });
       localStorage.removeItem("currentTab");
       localStorage.removeItem("currentUser");
+    }
+    if (key === "edit") {
+      setOpenEdit(true);
     }
   };
 
@@ -150,6 +154,9 @@ function Home() {
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{currentUser.username}</p>
               </DropdownItem>
+              <DropdownItem key="edit" className="h-14 gap-2">
+                Edit profile
+              </DropdownItem>
               <DropdownItem key="logout" color="danger">
                 Log Out
               </DropdownItem>
@@ -157,6 +164,7 @@ function Home() {
           </Dropdown>
         </NavbarContent>
       </Navbar>
+      {openEdit && <EditProfileModal isOpen={openEdit} handleClose={() => setOpenEdit(false)}/>}
       <Outlet />
     </>
   );

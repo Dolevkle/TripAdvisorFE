@@ -29,7 +29,19 @@ export const registerUser = (user: IUser) => {
         })
     })
 }
-
+export const editProfile = (user: IUser) => {
+    return new Promise<IUser>((resolve, reject) => {
+        console.log("Editing profile...")
+        console.log(user)
+        apiClient.post("/auth/edit", user).then((response) => {
+            console.log(response)
+            resolve(response.data)
+        }).catch((error) => {
+            console.log(error)
+            reject(error)
+        })
+    })
+}
 export const googleSignin = (credentialResponse: CredentialResponse) => {
     return new Promise<IUser>((resolve, reject) => {
         console.log("googleSignin ...")
