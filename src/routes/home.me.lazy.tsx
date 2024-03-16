@@ -14,13 +14,11 @@ function HomeMe() {
   const user = useCurrentUser();
   const {data: posts, isLoading, refetch} = useQuery({ queryKey: ['posts'], queryFn: getAllUserPosts })
 
-  console.log(posts)
-
   
 
   return (
     <div className="m-10 flex flex-col items-center space-y-8">
-      <UploadPostCard />
+      <UploadPostCard refetch={refetch} />
       {posts?.length && !isLoading ? <Posts posts={posts} refetch={refetch} /> : <NoPost />}
     </div>
   );

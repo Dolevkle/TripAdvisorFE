@@ -25,9 +25,10 @@ import { createPost } from "../../services/post-service";
 interface Props {
   isOpen: boolean;
   onOpenChange: () => void;
+  refetch: () => void;
 }
 
-export default function CreatePost({ isOpen, onOpenChange }: Props) {
+export default function CreatePost({ isOpen, onOpenChange, refetch }: Props) {
   const currentUser = useCurrentUser();
 
   const [imgSrc, setImgSrc] = useState<File | null>(null);
@@ -50,12 +51,15 @@ export default function CreatePost({ isOpen, onOpenChange }: Props) {
     // setIsSubmitted(true);
     const imgUrl = await uploadPhoto(imgSrc!);
     const post = {
+      username: currentUser.username,
+      userImgUrl: currentUser.imgUrl,
       content,
       imgUrl,
     };
     const createdPost = await createPost(post);
     if (createdPost) {
       onClose();
+      refetch();
     }
     // const user: IUser = {
     //   email,
@@ -72,14 +76,19 @@ export default function CreatePost({ isOpen, onOpenChange }: Props) {
 
   useEffect(() => {
     if (!isOpen) {
-      setContent('');
+      setContent("");
       setImgSrc(null);
     }
   }, [isOpen]);
 
   return (
     <>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissible={false} size='2xl'>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        isDismissible={false}
+        size="2xl"
+      >
         <ModalContent>
           {(onClose) => (
             <>

@@ -35,7 +35,7 @@ export const registerUser = (user: IUser) => {
 
 export const googleSignin = (credentialResponse: CredentialResponse) => {
   return new Promise<IUser>((resolve, reject) => {
-    console.log("googleSignin ...");
+console.log("googleSignin ...");
     apiClient
       .post("/auth/google", credentialResponse)
       .then((response) => {
@@ -64,7 +64,7 @@ export const getAllUsers = async (currentUserId: string) => {
   // })
 };
 
-export const getUser = async (accessToken: string) => {
+export const getCurrentUser = async (accessToken: string) => {
   const { data } = await apiClient.get("/user", {
     headers: { Authorization: `JWT ${accessToken}` },
   });

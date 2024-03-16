@@ -65,10 +65,10 @@ export default function Posts({ posts, refetch }: Props) {
               <Avatar
                 alt="user avatar"
                 className="w-10 h-10 self-center"
-                src={currentUser.imgUrl}
+                src={post.userImgUrl}
               />
               <div className="flex flex-col items-center space-y-0.5">
-                <span className="self-start">{currentUser.username}</span>
+                <span className="self-start">{post.username}</span>
                 <Chip
                   size="sm"
                   startContent={<FontAwesomeIcon icon={faUserGroup} />}

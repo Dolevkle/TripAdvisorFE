@@ -10,7 +10,11 @@ import {
 import useCurrentUser from "../../hooks/useCurrentUser";
 import CreatePost from "./CreatePost";
 
-export default function UploadPostCard() {
+
+interface Props {
+    refetch: () => void;
+}
+export default function UploadPostCard({refetch}: Props) {
   const currentUser = useCurrentUser();
   const createPostDisclosure = useDisclosure();
 
@@ -50,7 +54,7 @@ export default function UploadPostCard() {
           </span>
         </CardBody>
       </Card>
-      <CreatePost {...createPostDisclosure} />
+      <CreatePost {...createPostDisclosure} refetch={refetch}/>
     </>
   );
 }

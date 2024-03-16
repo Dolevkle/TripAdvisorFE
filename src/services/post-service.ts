@@ -1,11 +1,19 @@
 import apiClient from "./api-client";
 
+export type Comment = {
+    content: string;
+    responder_id: string;
+    userImgUrl: string;
+    username: string;
+}
 export type Post = {
     _id?:string;
   imgUrl: string;
   content: string;
   owner?: string;
-  comment?: string[]
+  comment?: Comment[];
+  userImgUrl?: string;
+  username?: string;
 };
 export const getAllUserPosts = async () => {
     const currentUser = localStorage.getItem("currentUser");
