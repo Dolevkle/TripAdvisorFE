@@ -18,6 +18,13 @@ export const loginUser = async (user: IUser) => {
   return data;
 };
 
+export const refresh = async (token: string) => {
+    const { data } = await apiClient.get("/auth/refresh", { 
+        headers: { Authorization: `JWT ${token}`}
+    })
+    return data;
+}
+
 export const registerUser = (user: IUser) => {
   return new Promise<IUser>((resolve, reject) => {
     apiClient
