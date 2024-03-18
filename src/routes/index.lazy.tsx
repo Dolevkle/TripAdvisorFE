@@ -3,6 +3,8 @@ import InfiniteMovingCardsDemo from "../components/InfiniteCardDemo";
 import JoinModal from "../components/JoinModal";
 import SignInModal from "../components/SignInModal";
 import { TypewriterEffectSmooth } from "../components/ui/TypewriterEffect";
+import {GoogleLogin} from "@react-oauth/google";
+import {googleSignin} from "../services/user-service.ts";
 
 export const Route = createLazyFileRoute("/")({
   component: Index,
@@ -50,6 +52,14 @@ function Index() {
           <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
             <JoinModal />
             <SignInModal />
+          </div>
+          <div className="flex mt-2">
+            <GoogleLogin onSuccess={async (credRes) => {
+              console.log(credRes)
+              const res = await googleSignin(credRes)
+              localStorage.setItem("currentUser", JSON.stringify(res));
+              res._id ? navigate({ to: "/home/me" }) : console.log(res)
+            }} onError={() => console.log("Fuck")}/>
           </div>
         </div>
         <InfiniteMovingCardsDemo />
