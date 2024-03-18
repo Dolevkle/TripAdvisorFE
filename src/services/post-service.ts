@@ -1,13 +1,13 @@
 import apiClient from "./api-client";
 
 export type Comment = {
-    content: string;
-    responder_id: string;
-    userImgUrl: string;
-    username: string;
-}
+  content: string;
+  responder_id: string;
+  userImgUrl: string;
+  username: string;
+};
 export type Post = {
-    _id?:string;
+  _id?: string;
   imgUrl: string;
   content: string;
   owner?: string;
@@ -16,14 +16,11 @@ export type Post = {
   username?: string;
 };
 export const getAllUserPosts = async () => {
-    const currentUser = localStorage.getItem("currentUser");
-    const { accessToken } = JSON.parse(currentUser);
-    const { data } = await apiClient.get("/userPost/user/allPosts",
-        {
-          headers: { Authorization: `JWT ${accessToken}` },
-        }
-      );
-      console.log(data);
+  const currentUser = localStorage.getItem("currentUser");
+  const { accessToken } = JSON.parse(currentUser);
+  const { data } = await apiClient.get("/userPost/user/allPosts", {
+    headers: { Authorization: `JWT ${accessToken}` },
+  });
   return data;
 };
 
@@ -41,16 +38,27 @@ export const createPost = async (post: Post) => {
 };
 
 export const editPost = async (post: Post) => {
-    const currentUser = localStorage.getItem("currentUser");
-    const { accessToken } = JSON.parse(currentUser);
-    const { data } = await apiClient.put(
-      `/userPost/${post._id}`,
-      { ...post },
-      {
-        headers: { Authorization: `JWT ${accessToken}` },
-      }
-    );
-    return data;
-  };
+  const currentUser = localStorage.getItem("currentUser");
+  const { accessToken } = JSON.parse(currentUser);
+  const { data } = await apiClient.put(
+    `/userPost/${post._id}`,
+    { ...post },
+    {
+      headers: { Authorization: `JWT ${accessToken}` },
+    }
+  );
+  return data;
+};
 
-
+export const createComment = async (postId: string, content: string) => {
+  const currentUser = localStorage.getItem("currentUser");
+  const { accessToken, imgUrl, username } = JSON.parse(currentUser);
+  const { data } = await apiClient.put(
+    `/userPost/addComment/${postId}`,
+    { userImgUrl: imgUrl, content, username },
+    {
+      headers: { Authorization: `JWT ${accessToken}` },
+    }
+  );
+  return data;
+};

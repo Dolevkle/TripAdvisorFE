@@ -112,6 +112,7 @@ export default function Posts({ posts, refetch }: Props) {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         post={selectedPost}
+        refetch={refetch}
       />
       <EditPost
         isOpen={isEditOpen}
