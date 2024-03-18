@@ -1,17 +1,29 @@
-import axios, { CanceledError } from "axios";
+import axios from "axios";
 
-export { CanceledError }
-const PlacesService = axios.create({
-    baseURL: 'https://api.geoapify.com/v2/places',
-});
+export const getPlacesByCity = async (city: string): Promise <Record<string,string>[]> => {
+    const encodedParams = new URLSearchParams();
+    encodedParams.set('location_id', city);
+    encodedParams.set('language', 'en_US');
+    encodedParams.set('currency', 'USD');
+    encodedParams.set('offset', '9');
 
-const PlacesDetailsService = axios.create({
-    baseURL: 'http://localhost:3000',
-});
+    const options = {
+        method: 'POST',
+        url: 'https://tourist-attraction.p.rapidapi.com/search',
+        headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'X-RapidAPI-Key': '47c1f295admshc122cf9f6c073c1p140759jsncfaac113b26c',
+            'X-RapidAPI-Host': 'tourist-attraction.p.rapidapi.com'
+        },
+        data: encodedParams,
+    };
 
-export const getPlacesByCity = async (city_code:string): Promise <Record<string,string>[]> => {
-    const {
-        data
-    } = await PlacesService.get(`?categories=activity&filter=place:${city_code}&limit=9&apiKey=4dd305d41b3541f4911a3dfd0b6a3237`)
-    return data.features
+    try {
+        const response = await axios.request(options);
+        console.log(response.data.results.data)
+       return(response.data.results.data);
+    } catch (error) {
+        console.error(error);
+    }
 }
+
