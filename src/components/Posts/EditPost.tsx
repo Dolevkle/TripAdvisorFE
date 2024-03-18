@@ -19,19 +19,27 @@ import {
 } from "@nextui-org/react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import useCurrentUser from "../../hooks/useCurrentUser";
-import { Post } from "./Posts";
+import { Post, editPost } from "../../services/post-service";
+import { uploadPhoto } from "../../services/file-service";
 
 interface Props {
   isOpen: boolean;
   onOpenChange: () => void;
   post: Post;
+  refetch: () => void;
 }
 
-export default function EditPost({ isOpen, onOpenChange, post }: Props) {
+export default function EditPost({
+  isOpen,
+  onOpenChange,
+  post,
+  refetch,
+}: Props) {
   const currentUser = useCurrentUser();
 
-  const [imgSrc, setImgSrc] = useState<File | null>(post.imgUrl);
+  const [imgSrc, setImgSrc] = useState<File | null | undefined>();
   const [content, setContent] = useState<string>(post.content);
+  const [isInitialPostDeleted, setIsInitialPostDeleted] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   //   const emailInputRef = useRef<HTMLInputElement>(null)
@@ -48,14 +56,27 @@ export default function EditPost({ isOpen, onOpenChange, post }: Props) {
 
   useEffect(() => {
     if (!isOpen) {
-      setImgSrc(post.imgUrl);
+      setImgSrc();
       setContent(post.content);
+      setIsInitialPostDeleted(false);
     }
   }, [isOpen, post]);
 
-  const handleEdit = async () => {
+  const getNewImgUrl = async (imgSrc: File | null | undefined) => {
+    if (imgSrc) return await await uploadPhoto(imgSrc!);
+    if (imgSrc === null) return "";
+    return post.imgUrl;
+  };
+
+  const handleEdit = async (onClose: () => void) => {
     // setIsSubmitted(true);
-    // const imgUrl = await uploadPhoto(imgSrc!);
+    const imgUrl = await getNewImgUrl(imgSrc);
+    const editedPostBody = { ...post, content, imgUrl };
+    const editedPost = await editPost(editedPostBody);
+    if (editedPost) {
+      onClose();
+      refetch();
+    }
     // const user: IUser = {
     //   email,
     //   username,
@@ -68,10 +89,38 @@ export default function EditPost({ isOpen, onOpenChange, post }: Props) {
     //     navigate({ to: '/home/me' });
     // }
   };
+  const renderEditImage = () => {
+    if (!post.imgUrl && !imgSrc) return;
+    if (!isInitialPostDeleted || imgSrc) {
+      return (
+        <>
+          <Badge
+            content={<FontAwesomeIcon icon={faMinus} />}
+            className="cursor-pointer py-1 px-1.5"
+            onClick={() => {
+              setIsInitialPostDeleted(true);
+              setImgSrc(null);
+            }}
+          >
+            <img
+              src={imgSrc ? URL.createObjectURL(imgSrc) : post.imgUrl}
+              className="h-52 w-52 rounded"
+            />
+          </Badge>
+        </>
+      );
+    }
+
+  };
 
   return (
     <>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissible={false}>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        isDismissible={false}
+        size="2xl"
+      >
         <ModalContent>
           {(onClose) => (
             <>
@@ -98,24 +147,7 @@ export default function EditPost({ isOpen, onOpenChange, post }: Props) {
                   </div>
                 </div>
                 <div className="flex flex-col items-center justify-center position-relative">
-                  {imgSrc && (
-                    <>
-                      <Badge
-                        content={<FontAwesomeIcon icon={faMinus} />}
-                        className="cursor-pointer py-1 px-1.5"
-                        onClick={() => setImgSrc(null)}
-                      >
-                        <img
-                          src={
-                            typeof imgSrc !== "string"
-                              ? URL.createObjectURL(imgSrc)
-                              : post.imgUrl
-                          }
-                          className="h-52 w-52 rounded"
-                        />
-                      </Badge>
-                    </>
-                  )}
+                  {renderEditImage()}
                 </div>
 
                 <input
@@ -146,7 +178,7 @@ export default function EditPost({ isOpen, onOpenChange, post }: Props) {
                 <Button
                   color="primary"
                   variant="solid"
-                  onPress={handleEdit}
+                  onPress={() => handleEdit(onClose)}
                   fullWidth
                 >
                   Edit

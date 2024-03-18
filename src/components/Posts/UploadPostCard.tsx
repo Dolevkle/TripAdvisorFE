@@ -1,4 +1,5 @@
 import {
+    Avatar,
   Card,
   CardBody,
   Divider,
@@ -9,7 +10,11 @@ import {
 import useCurrentUser from "../../hooks/useCurrentUser";
 import CreatePost from "./CreatePost";
 
-export default function UploadPostCard() {
+
+interface Props {
+    refetch: () => void;
+}
+export default function UploadPostCard({refetch}: Props) {
   const currentUser = useCurrentUser();
   const createPostDisclosure = useDisclosure();
 
@@ -23,12 +28,10 @@ export default function UploadPostCard() {
       </CardHeader> */}
         <CardBody className="overflow-visible py-2 flex justify-around h-32">
           <div className="flex flex-row items-center space-x-2">
-            <Image
-              alt="Card background"
-              className="object-cover rounded-xl"
+            <Avatar
+              alt="user avatar"
+              className="w-10 h-10 self-center"
               src={currentUser.imgUrl}
-              width={48}
-              height={48}
             />
             <div onClick={createPostDisclosure.onOpen} className="w-full">
               <Input
@@ -51,7 +54,7 @@ export default function UploadPostCard() {
           </span>
         </CardBody>
       </Card>
-      <CreatePost {...createPostDisclosure} />
+      <CreatePost {...createPostDisclosure} refetch={refetch}/>
     </>
   );
 }

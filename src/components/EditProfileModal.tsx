@@ -17,11 +17,17 @@ import { EyeSlashFilledIcon } from "./icons/EyeSlashFilledIcon";
 import {editProfile, IUser, registerUser} from "../services/user-service";
 import { uploadPhoto } from "../services/file-service";
 import { useNavigate } from "@tanstack/react-router";
+import useCurrentUser from "../hooks/useCurrentUser.tsx";
 
 export default function EditProfileModal({isOpen, handleClose}) {
+    const currentUser = useCurrentUser();
+
     const [isVisible, setIsVisible] = useState(false);
-    const [username, setUsername] = useState("");
+    const [username, setUsername] = useState(currentUser.username);
     const [password, setPassword] = useState("");
+    const [firstName, setFirstName] = useState(currentUser.firstName);
+    const [lastName, setLastName] = useState(currentUser.lastName);
+    const [imgUrl, setImgUrl] = useState(currentUser.imgUrl);
     const [secondPassword, setSecondPassword] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -43,22 +49,27 @@ export default function EditProfileModal({isOpen, handleClose}) {
         fileInputRef.current?.click();
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit =  async () => {
         setIsSubmitted(true);
-        const imgUrl = await uploadPhoto(imgSrc!);
+        const img = imgSrc ? await uploadPhoto(imgSrc!) : "";
         const user = {
-            username,
-            password,
-            imgUrl,
+            ...(username !== currentUser.username && {"username": username}),
+            ...(password && password !== currentUser.password && {"password": password}),
+            ...(img && {"imgUrl": img}),
+            ...(firstName !== currentUser.firstName && {"firstName": firstName}),
+            ...(lastName !== currentUser.lastName && {"lastName": lastName}),
         };
 
-        const edited = await editProfile(user);
+        if(user[0]) {
+            const edited = await editProfile(currentUser._id, user);
 
-        if(edited && !isInvalid) {
-            localStorage.setItem('currentUser', JSON.stringify(edited))
-            console.log("Edited successfully!")
-            handleClose();
-        }
+            if (edited) {
+                localStorage.setItem('currentUser', JSON.stringify(edited))
+                console.log("Edited successfully!")
+                handleClose();
+            }
+            console.log(user)
+        } else { console.log("Nothing changed")}
     };
 
     return (
@@ -72,7 +83,7 @@ export default function EditProfileModal({isOpen, handleClose}) {
                             <ModalBody>
                                 <div className="flex flex-col items-center justify-center position-relative">
                                     <img
-                                        src={imgSrc ? URL.createObjectURL(imgSrc) : avatarLogo}
+                                        src={imgSrc ? URL.createObjectURL(imgSrc) : imgUrl}
                                         className="h-24 w-24 rounded-full border border-foreground-300"
                                     />
                                     <button
@@ -97,14 +108,26 @@ export default function EditProfileModal({isOpen, handleClose}) {
                                     type="text"
                                     label="Username"
                                     placeholder="Enter your username"
-                                    isRequired
                                     value={username}
                                     onValueChange={setUsername}
                                 />
                                 <Input
+                                    type="text"
+                                    label="First Name"
+                                    placeholder="Enter your first name"
+                                    value={firstName}
+                                    onValueChange={setFirstName}
+                                />
+                                <Input
+                                    type="text"
+                                    label="Last Name"
+                                    placeholder="Enter your last name"
+                                    value={lastName}
+                                    onValueChange={setLastName}
+                                />
+                                <Input
                                     label="Password"
                                     placeholder="Enter new password"
-                                    isRequired
                                     endContent={
                                         <button
                                             className="focus:outline-none"
@@ -125,7 +148,6 @@ export default function EditProfileModal({isOpen, handleClose}) {
                                 <Input
                                     label="Password"
                                     placeholder="Enter matching password"
-                                    isRequired
                                     type="password"
                                     //   className="max-w-xs"
                                     isInvalid={isInvalid}

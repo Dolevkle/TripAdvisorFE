@@ -24,6 +24,8 @@ export default function JoinModal() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [secondPassword, setSecondPassword] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -54,12 +56,14 @@ export default function JoinModal() {
       email,
       username,
       password,
+      firstName,
+      lastName,
       imgUrl,
     };
     const registeredUser = await registerUser(user);
-    if(registeredUser && !isInvalid) {
-        localStorage.setItem('currentUser', JSON.stringify(registeredUser))
-        navigate({ to: '/home/me' });
+    if (registeredUser && !isInvalid) {
+      localStorage.setItem("currentUser", JSON.stringify(registeredUser));
+      navigate({ to: "/home/me" });
     }
   };
 
@@ -107,13 +111,29 @@ export default function JoinModal() {
                   value={email}
                   onValueChange={setEmail}
                 />
-                  <Input
+                <Input
                   type="text"
                   label="Username"
                   placeholder="Enter your username"
                   isRequired
                   value={username}
                   onValueChange={setUsername}
+                />
+                <Input
+                  type="text"
+                  label="First Name"
+                  placeholder="Enter your first name"
+                  isRequired
+                  value={firstName}
+                  onValueChange={setFirstName}
+                />
+                <Input
+                  type="text"
+                  label="Last Name"
+                  placeholder="Enter your last name"
+                  isRequired
+                  value={lastName}
+                  onValueChange={setLastName}
                 />
                 <Input
                   label="Password"
