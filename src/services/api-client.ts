@@ -7,10 +7,8 @@ const apiClient = axios.create({
   baseURL: "http://localhost:3000",
 });
 
-axios.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+apiClient.interceptors.response.use(
+  (response) => response,
   async (error) => {
     if (error.response.status === 401) {
       //place your reentry code
@@ -18,13 +16,15 @@ axios.interceptors.response.use(
       const currentUser = localStorage.getItem("currentUser");
       if (currentUser) {
         const parsedCurrentUser = JSON.parse(currentUser);
+        console.log(parsedCurrentUser.refreshToken)
         const res = await refresh(parsedCurrentUser.refreshToken);
-        axios.defaults.headers.common["Authorization"] =
+        localStorage.setItem('currentUser', JSON.stringify({...parsedCurrentUser, refreshToken: res.refreshToken, accessToken: res.accessToken}))
+        originalRequest.headers["Authorization"] =
           `JWT ${res.accessToken}`;
         return apiClient(originalRequest);
       }
     }
-    return error;
+    return Promise.reject(error);
   }
 );
 

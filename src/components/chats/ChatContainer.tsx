@@ -16,7 +16,7 @@ export default function ChatContainer({ currentChat, socket }) {
     const fetchMessages = async () => {
       const messages = await getMessages({
         from: currentUser._id,
-        to: currentChat._id,
+        to: currentChat?._id,
       });
       setMessages(messages);
     };
@@ -42,7 +42,7 @@ export default function ChatContainer({ currentChat, socket }) {
 
   const handleSendMsg = async (msg) => {
     socket.current.emit("send-msg", {
-      to: currentChat._id,
+      to: currentChat?._id,
       from: currentUser._id,
       msg,
     });
@@ -57,9 +57,9 @@ export default function ChatContainer({ currentChat, socket }) {
   return (
     <>
       <User
-        name={currentChat.username}
-        description={currentChat.email}
-        avatarProps={{ src: currentChat.imgUrl }}
+        name={currentChat?.username}
+        description={currentChat?.email}
+        avatarProps={{ src: currentChat?.imgUrl }}
         className="w-full p-4 border-b-2 border-divider justify-start rounded-none bg-content2"
       />
       <div>
@@ -76,7 +76,7 @@ export default function ChatContainer({ currentChat, socket }) {
                   alt="user avatar"
                   className="w-7 h-7 m-1"
                   src={
-                    message.fromSelf ? currentUser.imgUrl : currentChat.imgUrl
+                    message.fromSelf ? currentUser?.imgUrl : currentChat?.imgUrl
                   }
                 />
                 <div
