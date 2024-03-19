@@ -12,10 +12,10 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
-  Textarea
+  Textarea,
 } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import { Post, createComment } from "../../services/post-service";
 import Comments from "./Comments";
@@ -35,8 +35,6 @@ export default function FullPost({
   const currentUser = useCurrentUser();
   const [comment, setComment] = useState("");
 
-  // const {data: userPost, isLoading, refetch} = useQuery({ queryKey: [post.id], queryFn: getAllUserPosts })
-
   const { imgUrl, content } = post;
 
   const [comments, setComments] = useState(post.comments);
@@ -46,8 +44,12 @@ export default function FullPost({
       await createComment(payload.id, payload.content),
     onSuccess: (data) => {
       refetch();
+      setComments([...comments, data]);
+      setComment("");
     },
   });
+
+  useEffect(() => setComments(post.comments), [post]);
 
   return (
     <>
@@ -55,10 +57,6 @@ export default function FullPost({
         <ModalContent>
           {(onClose) => (
             <>
-              {/* <ModalHeader className="flex flex-col gap-1">
-                Dolev's Post
-              </ModalHeader>
-              <Divider /> */}
               <ModalBody className="p-0">
                 <Card className="rounded-none">
                   <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">

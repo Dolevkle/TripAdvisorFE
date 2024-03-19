@@ -35,7 +35,7 @@ export default function Posts({ posts, refetch }: Props) {
 
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
 
-  const [isPopOverOpen, setIsPopOverOpen] = useState(false);
+  const [isPopOverOpenArr, setIsPopOverOpenArr] = useState(posts.map((_) => false));
 
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(", "),
@@ -47,15 +47,23 @@ export default function Posts({ posts, refetch }: Props) {
     onOpen();
   };
 
-  const handleEditOpen = (isPopOverOpen: boolean) => {
-    setIsPopOverOpen(isPopOverOpen);
+  const handleEditOpen = (isPopOverOpen: boolean, index: number) => {
+    modifyPopOver(isPopOverOpen, index)
+    setSelectedPost(posts[index]);
     onEditOpen();
   };
 
+  const modifyPopOver = (isPopOverOpen: boolean, index: number) => {
+    const copyPopOvers = [...isPopOverOpenArr];
+    copyPopOvers[index] = isPopOverOpen;
+    setIsPopOverOpenArr(copyPopOvers);
+  }
+
   return (
     <>
-      {posts.map((post) => (
+      {posts.map((post, index) => (
         <Card
+          key={post._id}
           className="py-4 w-3/6"
           isPressable
           onPress={() => handlePostPress(post)}
@@ -80,15 +88,15 @@ export default function Posts({ posts, refetch }: Props) {
             </div>
             <Popover
               placement="bottom"
-              isOpen={isPopOverOpen}
-              onOpenChange={(open) => setIsPopOverOpen(open)}
+              isOpen={isPopOverOpenArr[index]}
+              onOpenChange={(open) => {console.log(open);modifyPopOver(open, index)}}
             >
               <PopoverTrigger>
-                <FontAwesomeIcon icon={faEllipsis} className="self-start" />
+                <FontAwesomeIcon icon={faEllipsis} className="self-start w-5 h-5" />
               </PopoverTrigger>
               <PopoverContent className="p-0">
                 <Button
-                  onClick={() => handleEditOpen(false)}
+                  onClick={() => handleEditOpen(false, index)}
                   variant="light"
                   fullWidth
                 >
@@ -103,7 +111,8 @@ export default function Posts({ posts, refetch }: Props) {
               className="object-cover rounded-xl my-4"
               src={post.imgUrl}
               width={500}
-              height={200}/>
+              height={200}
+            />
             <p className="self-start">{post.content}</p>
           </CardBody>
         </Card>

@@ -57,10 +57,16 @@ export default function EditPost({
   useEffect(() => {
     if (!isOpen) {
       setImgSrc();
-      setContent(post.content);
+      setContent('');
       setIsInitialPostDeleted(false);
     }
   }, [isOpen, post]);
+
+  
+  useEffect(() => {
+    setContent(post.content)
+  }, [post]);
+
 
   const getNewImgUrl = async (imgSrc: File | null | undefined) => {
     if (imgSrc) return await await uploadPhoto(imgSrc!);
