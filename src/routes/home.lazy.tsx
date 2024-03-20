@@ -33,9 +33,9 @@ function Home() {
   const [openEdit, setOpenEdit] = useState(false);
   const handleUserDropdownItem = (key: Key) => {
     if (key === "logout") {
-      navigate({ to: "/" });
       localStorage.removeItem("currentTab");
       localStorage.removeItem("currentUser");
+      navigate({ to: "/" });
     }
     if (key === "edit") {
       setOpenEdit(true);

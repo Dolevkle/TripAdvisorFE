@@ -21,6 +21,7 @@ const IndexLazyImport = createFileRoute('/')()
 const HomePlacesLazyImport = createFileRoute('/home/places')()
 const HomeMeLazyImport = createFileRoute('/home/me')()
 const HomeChatsLazyImport = createFileRoute('/home/chats')()
+const HomeUserIdLazyImport = createFileRoute('/home/$userId')()
 
 // Create/Update Routes
 
@@ -49,6 +50,11 @@ const HomeChatsLazyRoute = HomeChatsLazyImport.update({
   getParentRoute: () => HomeLazyRoute,
 } as any).lazy(() => import('./routes/home.chats.lazy').then((d) => d.Route))
 
+const HomeUserIdLazyRoute = HomeUserIdLazyImport.update({
+  path: '/$userId',
+  getParentRoute: () => HomeLazyRoute,
+} as any).lazy(() => import('./routes/home.$userId.lazy').then((d) => d.Route))
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -60,6 +66,10 @@ declare module '@tanstack/react-router' {
     '/home': {
       preLoaderRoute: typeof HomeLazyImport
       parentRoute: typeof rootRoute
+    }
+    '/home/$userId': {
+      preLoaderRoute: typeof HomeUserIdLazyImport
+      parentRoute: typeof HomeLazyImport
     }
     '/home/chats': {
       preLoaderRoute: typeof HomeChatsLazyImport
@@ -81,6 +91,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
   HomeLazyRoute.addChildren([
+    HomeUserIdLazyRoute,
     HomeChatsLazyRoute,
     HomeMeLazyRoute,
     HomePlacesLazyRoute,

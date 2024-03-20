@@ -1,8 +1,10 @@
 import { Autocomplete, AutocompleteItem, Avatar } from "@nextui-org/react";
 import { useAsyncList } from "@react-stately/data";
 import { SearchIcon } from "../assets/SearchIcon";
-import { getAllUsers } from "../services/user-service";
+import {getAllUsers, getUserById, getUserByName} from "../services/user-service";
 import useCurrentUser from "../hooks/useCurrentUser";
+import {getOtherUserPosts} from "../services/post-service.ts";
+import {useNavigate} from "@tanstack/react-router";
 
 {
   /* <Input
@@ -20,16 +22,23 @@ type="search"
 /> */
 }
 export default function SearchBar() {
+  const navigate = useNavigate();
   const currentUser = useCurrentUser();
+
   const list = useAsyncList({
     async load({ signal, filterText }) {
         // TODO change to route which works with typed content
-      const users = await getAllUsers(currentUser._id);
+      const users = await getUserByName(filterText);
       return {
         items: users,
       };
     },
   });
+
+  const openOtherUserPage = async (userId: string) => {
+      //const i = await getUserById(userId);
+      navigate({ to: `/home/${userId}` })
+  }
 
   return (
     <Autocomplete
@@ -90,8 +99,9 @@ export default function SearchBar() {
               src={item.imgUrl}
             />
           }
+          onClick={() => openOtherUserPage(item._id)}
         >
-          {item.username}
+          {`${item.firstName} ${item.lastName}`}
         </AutocompleteItem>
       )}
     </Autocomplete>
