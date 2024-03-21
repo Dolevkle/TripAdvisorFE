@@ -20,7 +20,6 @@ export const getPlacesByCity = async (city: string): Promise <Record<string,stri
 
     try {
         const response = await axios.request(options);
-        console.log(response.data.results.data)
        return(response.data.results.data);
     } catch (error) {
         console.error(error);

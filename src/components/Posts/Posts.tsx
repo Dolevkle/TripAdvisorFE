@@ -22,8 +22,9 @@ import useCurrentUser from "../../hooks/useCurrentUser";
 interface Props {
   posts: Post[];
   refetch?: () => void;
+  userId?: string;
 }
-export default function Posts({ posts, refetch }: Props) {
+export default function Posts({ posts, refetch, userId }: Props) {
   const currentUser = useCurrentUser();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const {
@@ -94,46 +95,47 @@ export default function Posts({ posts, refetch }: Props) {
                 </Chip>
               </div>
             </div>
-            <Popover
-              placement="bottom"
-              isOpen={isPopOverOpenArr[index]}
-              onOpenChange={(open) => modifyPopOver(open, index)}
+            {userId === currentUser._id && <Popover
+                placement="bottom"
+                isOpen={isPopOverOpenArr[index]}
+                onOpenChange={(open) => modifyPopOver(open, index)}
             >
               <PopoverTrigger>
-                <FontAwesomeIcon icon={faEllipsis} className="self-start w-5 h-5" />
+                <FontAwesomeIcon icon={faEllipsis} className="self-start w-5 h-5"/>
               </PopoverTrigger>
               <PopoverContent className="p-0 space-y-1">
                 <Button
-                  onClick={() => handleEditOpen(false, index)}
-                  variant="light"
-                  fullWidth
+                    onClick={() => handleEditOpen(false, index)}
+                    variant="light"
+                    fullWidth
                 >
                   Edit Post
                 </Button>
                 <Button
-                  onClick={() => handleDeletePost(posts[index], index)}
-                  variant="light"
-                  fullWidth
+                    onClick={() => handleDeletePost(posts[index], index)}
+                    variant="light"
+                    fullWidth
                 >
                   Delete Post
                 </Button>
               </PopoverContent>
-            </Popover>
+            </Popover>}
           </CardHeader>
           <CardBody className=" flex overflow-visible py-2 items-center">
-            <Image
-              alt="Card background"
-              className="object-cover rounded-xl my-4"
-              src={post.imgUrl}
-              width={500}
-              height={200}
-            />
-            <p className="self-start">{post.content}</p>
+            {post.imgUrl && <Image
+                alt="Card background"
+                className="object-cover rounded-xl my-4"
+                src={post.imgUrl}
+                width={500}
+                height={200}
+            />}
+            <p className="self-start mt-2 ml-2">{post.content}</p>
+            <p className="self-start mt-2 ml-2 text-xs">{post.comments.length ? `${post.comments.length} comments` : "No comments"}</p>
           </CardBody>
         </Card>
       ))}
       <FullPost
-        isOpen={isOpen}
+          isOpen={isOpen}
         onOpenChange={onOpenChange}
         post={selectedPost}
         refetch={refetch}
