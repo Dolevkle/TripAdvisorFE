@@ -22,6 +22,7 @@ import useCurrentUser from "../hooks/useCurrentUser.tsx";
 export default function EditProfileModal({isOpen, handleClose}) {
     const currentUser = useCurrentUser();
 
+    const [imgSrc, setImgSrc] = useState<File>();
     const [isVisible, setIsVisible] = useState(false);
     const [username, setUsername] = useState(currentUser.username);
     const [password, setPassword] = useState("");
@@ -35,13 +36,13 @@ export default function EditProfileModal({isOpen, handleClose}) {
     const isDirty = (
         username !== currentUser.username ||
         firstName !== currentUser.firstName ||
-        lastName !== currentUser.lastName
+        lastName !== currentUser.lastName ||
+        imgSrc
     ) || (
         password &&
         secondPassword &&
         password === secondPassword
     );
-    const [imgSrc, setImgSrc] = useState<File>();
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
