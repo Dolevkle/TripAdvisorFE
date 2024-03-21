@@ -1,6 +1,13 @@
 # Build Stage
 FROM node:18-alpine
 
+ARG VITE_SERVER
+ARG VITE_SOCKET
+ARG NODE_ENV
+
+ENV VITE_SERVER=$VITE_SERVER
+ENV VITE_SOCKET=$VITE_SOCKET
+ENV NODE_ENV=production
 WORKDIR /app
 
 # Copy package.json and package-lock.json
@@ -15,8 +22,6 @@ COPY . .
 # Build app for production with minification
 RUN npm run build
 
-ENV VITE_SERVER=$VITE_SERVER
-ENV VITE_SOCKET=$VITE_SOCKET
 EXPOSE 8080
 
 CMD [ "npm", "run", "preview" ]
