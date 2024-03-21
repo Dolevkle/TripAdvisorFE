@@ -4,7 +4,7 @@ import { refresh } from "./user-service";
 export { CanceledError };
 const apiClient = axios.create({
   //baseURL: 'https://10.10.248.100',
-  baseURL: import.meta.env.VITE_SERVER,
+  baseURL: process.env.VITE_SERVER,
 });
 
 apiClient.interceptors.response.use(

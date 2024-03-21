@@ -19,9 +19,14 @@
     "@react-stately/data": "^3.11.2",
     "@tanstack/react-query": "^5.28.4",
     "@tanstack/react-router": "^1.16.6",
+    "@tanstack/router-vite-plugin": "^1.16.5",
+    "@types/node": "^20.11.30",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.17",
     "axios": "^1.6.5",
     "bootstrap": "^5.3.2",
     "clsx": "^2.1.0",
+    "express": "^4.19.1",
     "framer-motion": "^11.0.5",
     "mini-svg-data-uri": "^1.4.4",
     "react": "^18.2.0",
@@ -29,11 +34,8 @@
     "react-hook-form": "^7.49.3",
     "socket.io-client": "^4.7.4",
     "tailwind-merge": "^2.2.1",
-    "zod": "^3.22.4",
     "vite": "^5.0.8",
-    "@tanstack/router-vite-plugin": "^1.16.5",
-    "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.4.17"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
