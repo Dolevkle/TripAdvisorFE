@@ -1,25 +1,29 @@
-import expressApp from "express";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
+import express from "express";
 import path from "path";
 import fs from "fs";
 import https from "https";
-const filename = fileURLToPath(import.meta.url);
 const privateKey = fs.readFileSync("client-key.pem");
 const certificate = fs.readFileSync("client-cert.pem");
-const dir = dirname(filename);
-const app = expressApp();
-const PORT = 443;
 
-app.use(expressApp.static(path.join(dir, "dist")));
+const app = express();
 
-// Handle other routes by serving the index.html file
-app.get("*", (req, res) => {
-  res.sendFile(path.join(dir, "dist", "index.html"));
+// Serve static files from the React app build directory
+app.use(express.static(path.join(__dirname, 'build')));
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/build/index.html'));
 });
 
-const server = https.createServer({ key: privateKey, cert: certificate }, app);
+const credentials = { key: privateKey, cert: certificate };
 
-server.listen(PORT, () => {
-  console.log(`Express server listening on port ${PORT} (HTTPS)`);
+// Create HTTPS server
+const httpsServer = https.createServer(credentials, app);
+
+// Use port 443 for HTTPS; you might need sudo to run on port 443
+const port = 443;
+
+httpsServer.listen(port, () => {
+  console.log(`HTTPS Server running on port ${port}`);
 });
