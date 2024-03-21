@@ -21,5 +21,5 @@ app.get("*", (req, res) => {
 const server = https.createServer({ key: privateKey, cert: certificate }, app);
 
 server.listen(PORT, () => {
-  console.log(Express server listening on port ${PORT} (HTTPS));
+  console.log(`Express server listening on port ${PORT} (HTTPS)`);
 });
