@@ -34,7 +34,7 @@ export default function HomeChats() {
 
   useEffect(() => {
     if (currentUser) {
-      socket.current = io(import.meta.env.VITE_SOCKET);
+      socket.current = io(process.env.VITE_SOCKET);
       socket.current.emit("add-user", currentUser._id);
     }
   }, [currentUser]);
