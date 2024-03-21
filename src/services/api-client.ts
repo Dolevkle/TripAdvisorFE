@@ -4,7 +4,7 @@ import { refresh } from "./user-service";
 export { CanceledError };
 const apiClient = axios.create({
   //baseURL: 'https://10.10.248.100',
-  baseURL: "http://localhost:3000",
+  baseURL: import.meta.env.VITE_SERVER,
 });
 
 apiClient.interceptors.response.use(
@@ -16,7 +16,6 @@ apiClient.interceptors.response.use(
       const currentUser = localStorage.getItem("currentUser");
       if (currentUser) {
         const parsedCurrentUser = JSON.parse(currentUser);
-        console.log(parsedCurrentUser.refreshToken)
         const res = await refresh(parsedCurrentUser.refreshToken);
         localStorage.setItem('currentUser', JSON.stringify({...parsedCurrentUser, refreshToken: res.refreshToken, accessToken: res.accessToken}))
         originalRequest.headers["Authorization"] =

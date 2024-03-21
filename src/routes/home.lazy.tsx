@@ -1,4 +1,9 @@
-import { faComments, faGears, faHome, faEarth } from "@fortawesome/free-solid-svg-icons";
+import {
+  faComments,
+  faGears,
+  faHome,
+  faEarth,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Avatar,
@@ -22,6 +27,7 @@ import { Key, useEffect, useState } from "react";
 import { AdvizorsLogo } from "../assets/AdvizorsLogo";
 import SearchBar from "../components/SearchBar";
 import useCurrentUser from "../hooks/useCurrentUser";
+import { logout } from "../services/user-service";
 import EditProfileModal from "../components/EditProfileModal.tsx";
 
 export const Route = createLazyFileRoute("/home")({
@@ -30,15 +36,21 @@ export const Route = createLazyFileRoute("/home")({
 
 function Home() {
   const navigate = useNavigate();
+
   const [openEdit, setOpenEdit] = useState(false);
-  const handleUserDropdownItem = (key: Key) => {
-    if (key === "logout") {
-      localStorage.removeItem("currentTab");
-      localStorage.removeItem("currentUser");
-      navigate({ to: "/" });
-    }
+
+  const handleUserDropdownItem = async (key: Key) => {
     if (key === "edit") {
       setOpenEdit(true);
+    }
+
+    if (key === "logout") {
+      const res = await logout();
+      if (res === "Logout succeeded") {
+        navigate({ to: "/" });
+        localStorage.removeItem("currentTab");
+        localStorage.removeItem("currentUser");
+      }
     }
   };
 
@@ -154,7 +166,11 @@ function Home() {
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{currentUser.username}</p>
               </DropdownItem>
-              <DropdownItem key="edit" className="h-14 gap-2" isDisabled={currentUser.username.includes("@")}>
+              <DropdownItem
+                key="edit"
+                className="h-14 gap-2"
+                isDisabled={currentUser.username.includes("@")}
+              >
                 Edit profile
               </DropdownItem>
               <DropdownItem key="logout" color="danger">
@@ -164,7 +180,12 @@ function Home() {
           </Dropdown>
         </NavbarContent>
       </Navbar>
-      {openEdit && <EditProfileModal isOpen={openEdit} handleClose={() => setOpenEdit(false)}/>}
+      {openEdit && (
+        <EditProfileModal
+          isOpen={openEdit}
+          handleClose={() => setOpenEdit(false)}
+        />
+      )}
       <Outlet />
     </>
   );

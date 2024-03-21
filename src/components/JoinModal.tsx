@@ -47,13 +47,11 @@ export default function JoinModal() {
   //   const emailInputRef = useRef<HTMLInputElement>(null)
   //   const passwordInputRef = useRef<HTMLInputElement>(null)
   const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     if (e.target.files && e.target.files.length > 0) {
       setImgSrc(e.target.files[0]);
     }
   };
   const selectImg = () => {
-    console.log("Selecting image...");
     fileInputRef.current?.click();
   };
 

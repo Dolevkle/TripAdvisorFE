@@ -89,7 +89,7 @@ export default function Posts({ posts, refetch }: Props) {
             <Popover
               placement="bottom"
               isOpen={isPopOverOpenArr[index]}
-              onOpenChange={(open) => {console.log(open);modifyPopOver(open, index)}}
+              onOpenChange={(open) => modifyPopOver(open, index)}
             >
               <PopoverTrigger>
                 <FontAwesomeIcon icon={faEllipsis} className="self-start w-5 h-5" />
