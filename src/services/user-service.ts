@@ -88,21 +88,17 @@ export const logout = async () => {
 };
 
 export const editProfile = async (userId: string, editUser: editUser) => {
-    console.log(editUser)
     const currentUser = localStorage.getItem("currentUser");
     const { accessToken } = JSON.parse(currentUser);
-    console.log(currentUser)
     return new Promise((resolve, reject) => {
         apiClient
             .put(`/user/${userId}`, {...editUser}, {
                 headers: { Authorization: `JWT ${accessToken}` },}
             )
             .then((response) => {
-                console.log(response);
                 resolve(response.data);
             })
             .catch((error) => {
-                console.log(error);
                 reject(error);
             });
     });
@@ -119,6 +115,5 @@ export const getUserById = async (userId: string)=> {
     const currentUser = localStorage.getItem("currentUser");
     const { accessToken } = JSON.parse(currentUser);
     const { data } = await apiClient.get(`/user/${userId}`, {headers: {Authorization: `JWT ${accessToken}`}});
-    console.log(data)
     return data;
 }

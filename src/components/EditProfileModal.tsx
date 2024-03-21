@@ -22,6 +22,7 @@ import useCurrentUser from "../hooks/useCurrentUser.tsx";
 export default function EditProfileModal({isOpen, handleClose}) {
     const currentUser = useCurrentUser();
 
+    const [imgSrc, setImgSrc] = useState<File>();
     const [isVisible, setIsVisible] = useState(false);
     const [username, setUsername] = useState(currentUser.username);
     const [password, setPassword] = useState("");
@@ -29,17 +30,22 @@ export default function EditProfileModal({isOpen, handleClose}) {
     const [lastName, setLastName] = useState(currentUser.lastName);
     const [imgUrl, setImgUrl] = useState(currentUser.imgUrl);
     const [secondPassword, setSecondPassword] = useState("");
-    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const toggleVisibility = () => setIsVisible(!isVisible);
-    const isInvalid = password !== secondPassword && isSubmitted;
-
-    const [imgSrc, setImgSrc] = useState<File>();
+    const isInvalid = ( password !== "" || secondPassword !== "") && password !== secondPassword;
+    const isDirty = (
+        username !== currentUser.username ||
+        firstName !== currentUser.firstName ||
+        lastName !== currentUser.lastName ||
+        imgSrc
+    ) || (
+        password &&
+        secondPassword &&
+        password === secondPassword
+    );
 
     const fileInputRef = useRef<HTMLInputElement>(null);
-
     const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
         if (e.target.files && e.target.files.length > 0) {
             setImgSrc(e.target.files[0]);
         }
@@ -50,7 +56,6 @@ export default function EditProfileModal({isOpen, handleClose}) {
     };
 
     const handleSubmit =  async () => {
-        setIsSubmitted(true);
         const img = imgSrc ? await uploadPhoto(imgSrc!) : "";
         let user;
         user = {
@@ -69,7 +74,6 @@ export default function EditProfileModal({isOpen, handleClose}) {
                 console.log("Edited successfully!")
                 handleClose();
             }
-            console.log(user)
         } else { console.log("Nothing changed")}
     };
 
@@ -161,7 +165,7 @@ export default function EditProfileModal({isOpen, handleClose}) {
                                 <Button color="danger" variant="light" onPress={handleClose}>
                                     Close
                                 </Button>
-                                <Button color="primary" onPress={handleSubmit}>
+                                <Button color="primary" onPress={handleSubmit} isDisabled={isInvalid || !isDirty}>
                                     Submit
                                 </Button>
                             </ModalFooter>
