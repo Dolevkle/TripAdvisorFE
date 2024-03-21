@@ -16,6 +16,7 @@ COPY . .
 RUN npm run build
 
 ENV VITE_SERVER=$VITE_SERVER
+ENV VITE_SOCKET=$VITE_SOCKET
 EXPOSE 8080
 
 CMD [ "npm", "run", "preview" ]
