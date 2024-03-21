@@ -6,13 +6,14 @@ import { TanStackRouterVite } from '@tanstack/router-vite-plugin'
 export default defineConfig({
   plugins: [react(), TanStackRouterVite()],
   preview: {
-    port: 8080,
+    port: 443,
     strictPort: true,
    },
    server: {
-    port: 8080,
+    port: 443,
     strictPort: true,
     host: true,
-    origin: "http://0.0.0.0:8080",
+    origin: "http://0.0.0.0:443",
+    https: true
    },
 })
