@@ -3,8 +3,7 @@ import { refresh } from "./user-service";
 
 export { CanceledError };
 const apiClient = axios.create({
-    baseURL: "http://localhost:3000"
-  // baseURL: import.meta.env.VITE_SERVER,
+  baseURL: import.meta.env.VITE_SERVER,
 });
 
 apiClient.interceptors.response.use(
