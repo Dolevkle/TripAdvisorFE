@@ -8,15 +8,6 @@ import {
 import React from "react";
 
 export default function Contacts({ contacts, changeChat }) {
-//   const [value, setValue] = React.useState(new Set(["1"]));
-
-//   const selectedValue = React.useMemo(
-//     () => Array.from(value).join(", "),
-//     [value]
-//   );
-
-//   console.log(selectedValue);
-
 
   return (
         <Listbox

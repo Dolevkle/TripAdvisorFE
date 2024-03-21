@@ -19,22 +19,20 @@ export const loginUser = async (user: IUser) => {
 };
 
 export const refresh = async (token: string) => {
-    const { data } = await apiClient.get("/auth/refresh", { 
-        headers: { Authorization: `JWT ${token}`}
-    })
-    return data;
-}
+  const { data } = await apiClient.get("/auth/refresh", {
+    headers: { Authorization: `JWT ${token}` },
+  });
+  return data;
+};
 
 export const registerUser = (user: IUser) => {
   return new Promise<IUser>((resolve, reject) => {
     apiClient
       .post("/auth/register", user)
       .then((response) => {
-        console.log(response);
         resolve(response.data);
       })
       .catch((error) => {
-        console.log(error);
         reject(error);
       });
   });
@@ -42,38 +40,38 @@ export const registerUser = (user: IUser) => {
 
 export const googleSignin = (credentialResponse: CredentialResponse) => {
   return new Promise<IUser>((resolve, reject) => {
-console.log("googleSignin ...");
     apiClient
       .post("/auth/google", credentialResponse)
       .then((response) => {
-        console.log(response);
         resolve(response.data);
       })
       .catch((error) => {
-        console.log(error);
         reject(error);
       });
   });
 };
 
 export const getAllUsers = async (currentUserId: string) => {
-  const { data } = await apiClient.get(`/auth/allUsers/${currentUserId}`);
+  const currentUser = localStorage.getItem("currentUser");
+  const { accessToken } = JSON.parse(currentUser);
+  const { data } = await apiClient.get(`/user/allUsers/${currentUserId}`, {
+    headers: { Authorization: `JWT ${accessToken}` },
+  });
   return data;
-  // return new Promise<IUser>((resolve, reject) => {
-  //     console.log("googleSignin ...")
-  //     apiClient.post("/auth/google", credentialResponse).then((response) => {
-  //         console.log(response)
-  //         resolve(response.data)
-  //     }).catch((error) => {
-  //         console.log(error)
-  //         reject(error)
-  //     })
-  // })
 };
 
 export const getCurrentUser = async (accessToken: string) => {
   const { data } = await apiClient.get("/user", {
     headers: { Authorization: `JWT ${accessToken}` },
+  });
+  return data;
+};
+
+export const logout = async () => {
+  const currentUser = localStorage.getItem("currentUser");
+  const { refreshToken } = JSON.parse(currentUser);
+  const { data } = await apiClient.get("/auth/logout", {
+    headers: { Authorization: `JWT ${refreshToken}` },
   });
   return data;
 };

@@ -22,6 +22,7 @@ import { Key, useEffect } from "react";
 import { AdvizorsLogo } from "../assets/AdvizorsLogo";
 import SearchBar from "../components/SearchBar";
 import useCurrentUser from "../hooks/useCurrentUser";
+import { logout } from "../services/user-service";
 
 export const Route = createLazyFileRoute("/home")({
   component: Home,
@@ -30,11 +31,14 @@ export const Route = createLazyFileRoute("/home")({
 function Home() {
   const navigate = useNavigate();
 
-  const handleUserDropdownItem = (key: Key) => {
+  const handleUserDropdownItem = async (key: Key) => {
     if (key === "logout") {
-      navigate({ to: "/" });
-      localStorage.removeItem("currentTab");
-      localStorage.removeItem("currentUser");
+      const res = await logout();
+      if (res === "Logout succeeded") {
+        navigate({ to: "/" });
+        localStorage.removeItem("currentTab");
+        localStorage.removeItem("currentUser");
+      }
     }
   };
 

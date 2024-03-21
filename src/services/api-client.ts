@@ -16,7 +16,6 @@ apiClient.interceptors.response.use(
       const currentUser = localStorage.getItem("currentUser");
       if (currentUser) {
         const parsedCurrentUser = JSON.parse(currentUser);
-        console.log(parsedCurrentUser.refreshToken)
         const res = await refresh(parsedCurrentUser.refreshToken);
         localStorage.setItem('currentUser', JSON.stringify({...parsedCurrentUser, refreshToken: res.refreshToken, accessToken: res.accessToken}))
         originalRequest.headers["Authorization"] =
