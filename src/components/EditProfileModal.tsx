@@ -14,7 +14,7 @@ import { ChangeEvent, useRef, useState } from "react";
 import avatarLogo from "../assets/avatar.jpeg";
 import { EyeFilledIcon } from "./icons/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "./icons/EyeSlashFilledIcon";
-import {editProfile, IUser, registerUser} from "../services/user-service";
+import {editProfile, getCurrentUser, IUser, registerUser} from "../services/user-service";
 import { uploadPhoto } from "../services/file-service";
 import { useNavigate } from "@tanstack/react-router";
 import useCurrentUser from "../hooks/useCurrentUser.tsx";
@@ -65,12 +65,12 @@ export default function EditProfileModal({isOpen, handleClose}) {
             ...(firstName !== currentUser.firstName && {"firstName": firstName}),
             ...(lastName !== currentUser.lastName && {"lastName": lastName}),
         };
-    console.log(currentUser)
+
         if(user) {
             const edited = await editProfile(currentUser._id, user);
 
             if (edited) {
-                localStorage.setItem('currentUser', JSON.stringify({...edited, accessToken: edited.refreshTokens[0]}))
+                localStorage.setItem('currentUser', JSON.stringify({...edited, accessToken: currentUser.accessToken, refreshToken: currentUser.refreshToken}))
                 console.log("Edited successfully!")
                 handleClose();
             }
