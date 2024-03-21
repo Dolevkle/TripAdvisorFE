@@ -1,9 +1,13 @@
 import express from "express";
-import path from "path";
+import path, { dirname } from 'path';
+
 import fs from "fs";
 import https from "https";
 const privateKey = fs.readFileSync("client-key.pem");
 const certificate = fs.readFileSync("client-cert.pem");
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
