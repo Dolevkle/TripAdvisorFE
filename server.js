@@ -7,7 +7,7 @@ import https from "https";
 const filename = fileURLToPath(import.meta.url);
 const privateKey = fs.readFileSync("client-key.pem");
 const certificate = fs.readFileSync("client-cert.pem");
-const dirname = dirname(filename);
+const dir = dirname(filename);
 const app = expressApp();
 const PORT = 443;
 
@@ -15,7 +15,7 @@ app.use(expressApp.static(path.join(dirname, "dist")));
 
 // Handle other routes by serving the index.html file
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
+  res.sendFile(path.join(dir, "dist", "index.html"));
 });
 
 const server = https.createServer({ key: privateKey, cert: certificate }, app);
