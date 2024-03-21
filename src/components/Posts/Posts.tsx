@@ -106,19 +106,20 @@ export default function Posts({ posts, refetch }: Props) {
             </Popover>
           </CardHeader>
           <CardBody className=" flex overflow-visible py-2 items-center">
-            <Image
-              alt="Card background"
-              className="object-cover rounded-xl my-4"
-              src={post.imgUrl}
-              width={500}
-              height={200}
-            />
-            <p className="self-start">{post.content}</p>
+            {post.imgUrl && <Image
+                alt="Card background"
+                className="object-cover rounded-xl my-4"
+                src={post.imgUrl}
+                width={500}
+                height={200}
+            />}
+            <p className="self-start mt-2 ml-2">{post.content}</p>
+            <p className="self-start mt-2 ml-2 text-xs">{post.comments.length ? `${post.comments.length} comments` : "No comments"}</p>
           </CardBody>
         </Card>
       ))}
       <FullPost
-        isOpen={isOpen}
+          isOpen={isOpen}
         onOpenChange={onOpenChange}
         post={selectedPost}
         refetch={refetch}

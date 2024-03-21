@@ -27,10 +27,18 @@ export default function JoinModal() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [secondPassword, setSecondPassword] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
+
 
   const toggleVisibility = () => setIsVisible(!isVisible);
-  const isInvalid = password !== secondPassword && isSubmitted;
+  const isInvalid = username === "" ||
+      firstName === "" ||
+      lastName === "" ||
+      email === "" ||
+      password === "" ||
+      secondPassword === "";
+
+  const isPassInvalid = password !== secondPassword &&
+      (password !== "" || secondPassword !== "");
 
   const [imgSrc, setImgSrc] = useState<File>();
 
@@ -50,8 +58,7 @@ export default function JoinModal() {
   };
 
   const handleSubmit = async () => {
-    setIsSubmitted(true);
-    const imgUrl = await uploadPhoto(imgSrc!);
+    const imgUrl = imgSrc ? await uploadPhoto(imgSrc!) : "";
     const user: IUser = {
       email,
       username,
@@ -162,8 +169,8 @@ export default function JoinModal() {
                   isRequired
                   type="password"
                   //   className="max-w-xs"
-                  isInvalid={isInvalid}
-                  errorMessage={isInvalid && "Please enter a matching password"}
+                  isInvalid={isPassInvalid}
+                  errorMessage={isPassInvalid && "Please enter a matching password"}
                   value={secondPassword}
                   onValueChange={setSecondPassword}
                 />
@@ -172,7 +179,7 @@ export default function JoinModal() {
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary" onPress={handleSubmit}>
+                <Button color="primary" onPress={handleSubmit} isDisabled={isInvalid || isPassInvalid}>
                   Join in
                 </Button>
               </ModalFooter>

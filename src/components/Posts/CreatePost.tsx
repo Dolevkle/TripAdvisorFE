@@ -31,7 +31,7 @@ interface Props {
 export default function CreatePost({ isOpen, onOpenChange, refetch }: Props) {
   const currentUser = useCurrentUser();
 
-  const [imgSrc, setImgSrc] = useState<File | null>(null);
+  const [imgSrc, setImgSrc] = useState<File | null>("");
   const [content, setContent] = useState<string>("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -49,7 +49,7 @@ export default function CreatePost({ isOpen, onOpenChange, refetch }: Props) {
 
   const handleSubmit = async (onClose: () => void) => {
     // setIsSubmitted(true);
-    const imgUrl = await uploadPhoto(imgSrc!);
+    const imgUrl = imgSrc ? await uploadPhoto(imgSrc!) : "";
     const post = {
       username: currentUser.username,
       userImgUrl: currentUser.imgUrl,
