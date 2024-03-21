@@ -15,6 +15,7 @@ COPY . .
 # Build app for production with minification
 RUN npm run build
 
+ENV VITE_SERVER=$VITE_SERVER
 EXPOSE 8080
 
 CMD [ "npm", "run", "preview" ]

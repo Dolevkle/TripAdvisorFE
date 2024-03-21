@@ -34,7 +34,7 @@ export default function HomeChats() {
 
   useEffect(() => {
     if (currentUser) {
-      socket.current = io("http://localhost:3000");
+      socket.current = io(import.meta.env.VITE_SERVER);
       socket.current.emit("add-user", currentUser._id);
     }
   }, [currentUser]);
