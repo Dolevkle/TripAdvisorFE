@@ -61,6 +61,18 @@ export const editPost = async (post: Post) => {
   return data;
 };
 
+export const deletePost = async (post: Post) => {
+  const currentUser = localStorage.getItem("currentUser");
+  const { accessToken } = JSON.parse(currentUser);
+  const { data } = await apiClient.delete(
+    `/userPost/${post._id}`,
+    {
+      headers: { Authorization: `JWT ${accessToken}` },
+    }
+  );
+  return data;
+};
+
 export const createComment = async (postId: string, content: string) => {
   const currentUser = localStorage.getItem("currentUser");
   const { accessToken, imgUrl, username } = JSON.parse(currentUser);
