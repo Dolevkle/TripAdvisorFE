@@ -45,7 +45,6 @@ export default function EditProfileModal({isOpen, handleClose}) {
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const imgSelected = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
         if (e.target.files && e.target.files.length > 0) {
             setImgSrc(e.target.files[0]);
         }
@@ -74,7 +73,6 @@ export default function EditProfileModal({isOpen, handleClose}) {
                 console.log("Edited successfully!")
                 handleClose();
             }
-            console.log(user)
         } else { console.log("Nothing changed")}
     };
 
