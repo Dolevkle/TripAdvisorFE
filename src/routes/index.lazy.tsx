@@ -1,5 +1,5 @@
 import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
-import InfiniteMovingCardsDemo from "../components/InfiniteCardDemo";
+import Reviews from "../components/Reviews";
 import JoinModal from "../components/JoinModal";
 import SignInModal from "../components/SignInModal";
 import { TypewriterEffectSmooth } from "../components/ui/TypewriterEffect";
@@ -52,7 +52,7 @@ function Index() {
             <SignInModal />
           </div>
         </div>
-        <InfiniteMovingCardsDemo />
+        <Reviews />
         {/* </p> */}
       </div>
     </>
