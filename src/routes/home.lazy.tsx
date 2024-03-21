@@ -1,4 +1,9 @@
-import { faComments, faGears, faHome } from "@fortawesome/free-solid-svg-icons";
+import {
+  faComments,
+  faGears,
+  faHome,
+  faEarth,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Avatar,
@@ -18,11 +23,12 @@ import {
   createLazyFileRoute,
   useNavigate,
 } from "@tanstack/react-router";
-import { Key, useEffect } from "react";
+import { Key, useEffect, useState } from "react";
 import { AdvizorsLogo } from "../assets/AdvizorsLogo";
 import SearchBar from "../components/SearchBar";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { logout } from "../services/user-service";
+import EditProfileModal from "../components/EditProfileModal.tsx";
 
 export const Route = createLazyFileRoute("/home")({
   component: Home,
@@ -31,7 +37,13 @@ export const Route = createLazyFileRoute("/home")({
 function Home() {
   const navigate = useNavigate();
 
+  const [openEdit, setOpenEdit] = useState(false);
+
   const handleUserDropdownItem = async (key: Key) => {
+    if (key === "edit") {
+      setOpenEdit(true);
+    }
+
     if (key === "logout") {
       const res = await logout();
       if (res === "Logout succeeded") {
@@ -115,17 +127,17 @@ function Home() {
           </NavbarItem>
           <NavbarItem isActive={currentTab === "2"}>
             <Link
-              href="#"
+              href="./places"
               onClick={() => localStorage.setItem("currentTab", "2")}
               color={currentTab === "2" ? "primary" : "foreground"}
             >
               <Tooltip
-                content="Settings"
+                content="Places"
                 key="bottom"
                 placement="bottom"
                 color="foreground"
               >
-                <FontAwesomeIcon icon={faGears} className="w-[48px] h-[20px]" />
+                <FontAwesomeIcon icon={faEarth} className="w-[48px] h-[20px]" />
               </Tooltip>
             </Link>
           </NavbarItem>
@@ -154,6 +166,13 @@ function Home() {
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{currentUser.username}</p>
               </DropdownItem>
+              <DropdownItem
+                key="edit"
+                className="h-14 gap-2"
+                isDisabled={currentUser.username.includes("@")}
+              >
+                Edit profile
+              </DropdownItem>
               <DropdownItem key="logout" color="danger">
                 Log Out
               </DropdownItem>
@@ -161,6 +180,12 @@ function Home() {
           </Dropdown>
         </NavbarContent>
       </Navbar>
+      {openEdit && (
+        <EditProfileModal
+          isOpen={openEdit}
+          handleClose={() => setOpenEdit(false)}
+        />
+      )}
       <Outlet />
     </>
   );

@@ -24,6 +24,14 @@ export const getAllUserPosts = async () => {
   return data;
 };
 
+export const getOtherUserPosts = async (otherUser) => {
+  const { data } = await apiClient.get(`/userPost/user/allPosts`, {
+    headers: { Authorization: `JWT ${otherUser.refreshTokens[0]}` }
+
+  })
+  return data;
+};
+
 export const createPost = async (post: Post) => {
   const currentUser = localStorage.getItem("currentUser");
   const { accessToken } = JSON.parse(currentUser);

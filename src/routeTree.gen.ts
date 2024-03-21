@@ -18,8 +18,10 @@ import { Route as rootRoute } from './routes/__root'
 
 const HomeLazyImport = createFileRoute('/home')()
 const IndexLazyImport = createFileRoute('/')()
+const HomePlacesLazyImport = createFileRoute('/home/places')()
 const HomeMeLazyImport = createFileRoute('/home/me')()
 const HomeChatsLazyImport = createFileRoute('/home/chats')()
+const HomeUserIdLazyImport = createFileRoute('/home/$userId')()
 
 // Create/Update Routes
 
@@ -33,6 +35,11 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
+const HomePlacesLazyRoute = HomePlacesLazyImport.update({
+  path: '/places',
+  getParentRoute: () => HomeLazyRoute,
+} as any).lazy(() => import('./routes/home.places.lazy').then((d) => d.Route))
+
 const HomeMeLazyRoute = HomeMeLazyImport.update({
   path: '/me',
   getParentRoute: () => HomeLazyRoute,
@@ -42,6 +49,11 @@ const HomeChatsLazyRoute = HomeChatsLazyImport.update({
   path: '/chats',
   getParentRoute: () => HomeLazyRoute,
 } as any).lazy(() => import('./routes/home.chats.lazy').then((d) => d.Route))
+
+const HomeUserIdLazyRoute = HomeUserIdLazyImport.update({
+  path: '/$userId',
+  getParentRoute: () => HomeLazyRoute,
+} as any).lazy(() => import('./routes/home.$userId.lazy').then((d) => d.Route))
 
 // Populate the FileRoutesByPath interface
 
@@ -55,12 +67,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeLazyImport
       parentRoute: typeof rootRoute
     }
+    '/home/$userId': {
+      preLoaderRoute: typeof HomeUserIdLazyImport
+      parentRoute: typeof HomeLazyImport
+    }
     '/home/chats': {
       preLoaderRoute: typeof HomeChatsLazyImport
       parentRoute: typeof HomeLazyImport
     }
     '/home/me': {
       preLoaderRoute: typeof HomeMeLazyImport
+      parentRoute: typeof HomeLazyImport
+    }
+    '/home/places': {
+      preLoaderRoute: typeof HomePlacesLazyImport
       parentRoute: typeof HomeLazyImport
     }
   }
@@ -70,7 +90,12 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
-  HomeLazyRoute.addChildren([HomeChatsLazyRoute, HomeMeLazyRoute]),
+  HomeLazyRoute.addChildren([
+    HomeUserIdLazyRoute,
+    HomeChatsLazyRoute,
+    HomeMeLazyRoute,
+    HomePlacesLazyRoute,
+  ]),
 ])
 
 /* prettier-ignore-end */

@@ -27,7 +27,7 @@ if (!rootElement.innerHTML) {
   root.render(
     <NextUIProvider>
       <QueryClientProvider client={queryClient}>
-        <GoogleOAuthProvider clientId="385853328082-uvnh7ohdpdsoj7lk9c4e3jetkb1s8mim.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId="409999073428-49khbidla0mq2rb119am8m0amua8jlml.apps.googleusercontent.com">
           <StrictMode>
             <RouterProvider router={router} />
           </StrictMode>
