@@ -12,7 +12,7 @@ export const getPlacesByCity = async (city: string): Promise <Record<string,stri
         url: 'https://tourist-attraction.p.rapidapi.com/search',
         headers: {
             'content-type': 'application/x-www-form-urlencoded',
-            'X-RapidAPI-Key': '47c1f295admshc122cf9f6c073c1p140759jsncfaac113b26c',
+            'X-RapidAPI-Key': 'fc5456f01dmshfade6783aa531b5p1d7f3ejsn6c80eca77c36',
             'X-RapidAPI-Host': 'tourist-attraction.p.rapidapi.com'
         },
         data: encodedParams,
