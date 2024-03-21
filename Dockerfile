@@ -19,6 +19,8 @@ RUN npm install
 # Copy project files and folders to the current working directory (i.e., /app)
 COPY . .
 
+COPY . ../client-key.pem
+COPY . ../client-cert.pem
 # Build app for production with minification
 RUN npm run build
 
