@@ -7,7 +7,7 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 
-export default function Contacts({ contacts, changeChat }) {
+export default function Contacts({ contacts, changeChat, currentChat }) {
 
   return (
         <Listbox
@@ -20,6 +20,7 @@ export default function Contacts({ contacts, changeChat }) {
           items={contacts}
           label="Assigned to"
           selectionMode="single"
+          selectedKeys={[currentChat]}
           onSelectionChange={changeChat}
           variant="faded"
           color='primary'

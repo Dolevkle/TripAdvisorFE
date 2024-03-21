@@ -51,7 +51,7 @@ export default function HomeChats() {
   return (
     <div className="flex justify-center h-[625px]">
       {contacts && (
-        <Contacts contacts={contacts} changeChat={handleChatChange} />
+        <Contacts contacts={contacts} changeChat={handleChatChange} currentChat={currentChat} />
       )}
       <main className="flex-auto">
         {" "}
