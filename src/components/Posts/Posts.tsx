@@ -22,8 +22,9 @@ import useCurrentUser from "../../hooks/useCurrentUser";
 interface Props {
   posts: Post[];
   refetch?: () => void;
+  userId?: string;
 }
-export default function Posts({ posts, refetch }: Props) {
+export default function Posts({ posts, refetch, userId }: Props) {
   const currentUser = useCurrentUser();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const {

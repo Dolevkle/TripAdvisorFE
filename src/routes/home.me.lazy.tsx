@@ -12,7 +12,7 @@ export const Route = createLazyFileRoute("/home/me")({
 
 function HomeMe() {
   const user = useCurrentUser();
-  const {data: posts, isLoading, refetch} = useQuery({ queryKey: ['posts'], queryFn: getAllUserPosts })
+  const {data: posts, isLoading, refetch} = useQuery({ queryKey: ['posts'], queryFn: () => getAllUserPosts(user._id) })
 
   
 
