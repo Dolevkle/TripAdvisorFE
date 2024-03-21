@@ -11,7 +11,7 @@ const dir = dirname(filename);
 const app = expressApp();
 const PORT = 443;
 
-app.use(expressApp.static(path.join(dirname, "dist")));
+app.use(expressApp.static(path.join(dir, "dist")));
 
 // Handle other routes by serving the index.html file
 app.get("*", (req, res) => {
