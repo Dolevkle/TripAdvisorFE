@@ -27,7 +27,7 @@ export default function JoinModal() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [secondPassword, setSecondPassword] = useState("");
-
+  const [imgSrc, setImgSrc] = useState<File>();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
   const isInvalid = username === "" ||
@@ -35,12 +35,13 @@ export default function JoinModal() {
       lastName === "" ||
       email === "" ||
       password === "" ||
-      secondPassword === "";
+      secondPassword === "" ||
+      !imgSrc
+
+
 
   const isPassInvalid = password !== secondPassword &&
       (password !== "" || secondPassword !== "");
-
-  const [imgSrc, setImgSrc] = useState<File>();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
