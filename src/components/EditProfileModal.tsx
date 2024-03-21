@@ -52,19 +52,20 @@ export default function EditProfileModal({isOpen, handleClose}) {
     const handleSubmit =  async () => {
         setIsSubmitted(true);
         const img = imgSrc ? await uploadPhoto(imgSrc!) : "";
-        const user = {
+        let user;
+        user = {
             ...(username !== currentUser.username && {"username": username}),
             ...(password && password !== currentUser.password && {"password": password}),
             ...(img && {"imgUrl": img}),
             ...(firstName !== currentUser.firstName && {"firstName": firstName}),
             ...(lastName !== currentUser.lastName && {"lastName": lastName}),
         };
-
-        if(user[0]) {
+    console.log(currentUser)
+        if(user) {
             const edited = await editProfile(currentUser._id, user);
 
             if (edited) {
-                localStorage.setItem('currentUser', JSON.stringify(edited))
+                localStorage.setItem('currentUser', JSON.stringify({...edited, accessToken: edited.refreshTokens[0]}))
                 console.log("Edited successfully!")
                 handleClose();
             }

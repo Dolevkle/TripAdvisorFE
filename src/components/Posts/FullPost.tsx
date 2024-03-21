@@ -43,6 +43,7 @@ export default function FullPost({
     mutationFn: async (payload) =>
       await createComment(payload.id, payload.content),
     onSuccess: (data) => {
+      console.log(data)
       refetch();
       setComments([...comments, data]);
       setComment("");

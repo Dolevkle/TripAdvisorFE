@@ -92,6 +92,7 @@ export const editProfile = async (userId: string, editUser: editUser) => {
     console.log(editUser)
     const currentUser = localStorage.getItem("currentUser");
     const { accessToken } = JSON.parse(currentUser);
+    console.log(currentUser)
     return new Promise((resolve, reject) => {
         apiClient
             .put(`/user/${userId}`, {...editUser}, {
@@ -106,4 +107,19 @@ export const editProfile = async (userId: string, editUser: editUser) => {
                 reject(error);
             });
     });
+}
+
+export const getUserByName = async (fullName: string)=> {
+    const currentUser = localStorage.getItem("currentUser");
+    const { accessToken } = JSON.parse(currentUser);
+        const { data } = await apiClient.get(`/user/filter/${fullName}`,   {headers: { Authorization: `JWT ${accessToken}` }});
+        return data;
+}
+
+export const getUserById = async (userId: string)=> {
+    const currentUser = localStorage.getItem("currentUser");
+    const { accessToken } = JSON.parse(currentUser);
+    const { data } = await apiClient.get(`/user/${userId}`, {headers: {Authorization: `JWT ${accessToken}`}});
+    console.log(data)
+    return data;
 }
