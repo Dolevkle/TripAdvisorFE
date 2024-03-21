@@ -24,6 +24,6 @@ COPY . ../client-cert.pem
 # Build app for production with minification
 RUN npm run build
 
-EXPOSE 8080
+EXPOSE 443
 
 CMD [ "npm", "run", "preview" ]
