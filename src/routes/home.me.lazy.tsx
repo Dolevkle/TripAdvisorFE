@@ -19,7 +19,7 @@ function HomeMe() {
   return (
     <div className="m-10 flex flex-col items-center space-y-8">
       <UploadPostCard refetch={refetch} />
-      {posts?.length && !isLoading ? <Posts posts={posts} refetch={refetch} /> : <NoPost />}
+      {posts?.length && !isLoading ? <Posts posts={posts} refetch={refetch} userId={user._id} /> : <NoPost />}
     </div>
   );
 }

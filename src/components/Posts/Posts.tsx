@@ -95,31 +95,31 @@ export default function Posts({ posts, refetch, userId }: Props) {
                 </Chip>
               </div>
             </div>
-            <Popover
-              placement="bottom"
-              isOpen={isPopOverOpenArr[index]}
-              onOpenChange={(open) => modifyPopOver(open, index)}
+            {userId === currentUser._id && <Popover
+                placement="bottom"
+                isOpen={isPopOverOpenArr[index]}
+                onOpenChange={(open) => modifyPopOver(open, index)}
             >
               <PopoverTrigger>
-                <FontAwesomeIcon icon={faEllipsis} className="self-start w-5 h-5" />
+                <FontAwesomeIcon icon={faEllipsis} className="self-start w-5 h-5"/>
               </PopoverTrigger>
               <PopoverContent className="p-0 space-y-1">
                 <Button
-                  onClick={() => handleEditOpen(false, index)}
-                  variant="light"
-                  fullWidth
+                    onClick={() => handleEditOpen(false, index)}
+                    variant="light"
+                    fullWidth
                 >
                   Edit Post
                 </Button>
                 <Button
-                  onClick={() => handleDeletePost(posts[index], index)}
-                  variant="light"
-                  fullWidth
+                    onClick={() => handleDeletePost(posts[index], index)}
+                    variant="light"
+                    fullWidth
                 >
                   Delete Post
                 </Button>
               </PopoverContent>
-            </Popover>
+            </Popover>}
           </CardHeader>
           <CardBody className=" flex overflow-visible py-2 items-center">
             {post.imgUrl && <Image
