@@ -15,20 +15,12 @@ export type Post = {
   userImgUrl?: string;
   username?: string;
 };
-export const getAllUserPosts = async () => {
+export const getAllUserPosts = async (userId: string) => {
   const currentUser = localStorage.getItem("currentUser");
   const { accessToken } = JSON.parse(currentUser);
-  const { data } = await apiClient.get("/userPost/user/allPosts", {
+  const { data } = await apiClient.get(`/userPost/user/allPosts/${userId}`, {
     headers: { Authorization: `JWT ${accessToken}` },
   });
-  return data;
-};
-
-export const getOtherUserPosts = async (otherUser) => {
-  const { data } = await apiClient.get(`/userPost/user/allPosts`, {
-    headers: { Authorization: `JWT ${otherUser.refreshTokens[0]}` }
-
-  })
   return data;
 };
 
