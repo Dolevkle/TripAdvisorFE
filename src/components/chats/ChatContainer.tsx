@@ -62,7 +62,7 @@ export default function ChatContainer({ currentChat, socket }) {
         avatarProps={{ src: currentChat?.imgUrl }}
         className="w-full p-4 border-b-2 border-divider justify-start rounded-none bg-content2"
       />
-      <div>
+      <div className="overflow-y-auto h-[425px]">
         {messages?.map((message) => {
           return (
             <div ref={scrollRef} key={id}>
