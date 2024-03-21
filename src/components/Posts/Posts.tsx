@@ -16,7 +16,7 @@ import {
 import { useMemo, useState } from "react";
 import EditPost from "./EditPost";
 import FullPost from "./FullPost";
-import { Post } from "../../services/post-service";
+import { Post, deletePost } from "../../services/post-service";
 import useCurrentUser from "../../hooks/useCurrentUser";
 
 interface Props {
@@ -59,6 +59,14 @@ export default function Posts({ posts, refetch }: Props) {
     setIsPopOverOpenArr(copyPopOvers);
   }
 
+  const handleDeletePost = async (post: Post, index: number) => {
+    const res = await deletePost(post);
+    if ( res === 'Deleted successfully') {
+      refetch();
+      modifyPopOver(false, index);
+    }
+  }
+
   return (
     <>
       {posts.map((post, index) => (
@@ -94,13 +102,20 @@ export default function Posts({ posts, refetch }: Props) {
               <PopoverTrigger>
                 <FontAwesomeIcon icon={faEllipsis} className="self-start w-5 h-5" />
               </PopoverTrigger>
-              <PopoverContent className="p-0">
+              <PopoverContent className="p-0 space-y-1">
                 <Button
                   onClick={() => handleEditOpen(false, index)}
                   variant="light"
                   fullWidth
                 >
                   Edit Post
+                </Button>
+                <Button
+                  onClick={() => handleDeletePost(posts[index], index)}
+                  variant="light"
+                  fullWidth
+                >
+                  Delete Post
                 </Button>
               </PopoverContent>
             </Popover>
