@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import Contacts from "../components/chats/Contacts";
 import { getAllUsers } from "../services/user-service";
+import fs from "fs";
 import NoChat from "../components/chats/NoChat";
 import ChatContainer from "../components/chats/ChatContainer";
 // import ChatContainer from "../components/ChatContainer";
@@ -34,7 +35,9 @@ export default function HomeChats() {
 
   useEffect(() => {
     if (currentUser) {
-      socket.current = io(process.env.VITE_SOCKET);
+      socket.current = io(process.env.VITE_SOCKET, {
+        ca: fs.readFileSync("client-key.pem")
+      });
       socket.current.emit("add-user", currentUser._id);
     }
   }, [currentUser]);
