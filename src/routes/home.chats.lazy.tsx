@@ -36,7 +36,9 @@ export default function HomeChats() {
   useEffect(() => {
     if (currentUser) {
       socket.current = io(process.env.VITE_SOCKET, {
-       rejectUnauthorized: false
+       rejectUnauthorized: false,
+       secure: true,
+       reconnect: true
       });
       socket.current.emit("add-user", currentUser._id);
     }
