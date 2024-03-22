@@ -36,7 +36,7 @@ export default function HomeChats() {
   useEffect(() => {
     if (currentUser) {
       socket.current = io(process.env.VITE_SOCKET, {
-        ca: fs.readFileSync("../../client-key.pem")
+       rejectUnauthorized: false
       });
       socket.current.emit("add-user", currentUser._id);
     }
